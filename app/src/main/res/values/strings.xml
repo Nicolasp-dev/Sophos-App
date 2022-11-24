@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SophosApp</string>
+    <string name="input_data_msg">Ingresa tus datos para \n acceder</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="Login">Ingresar</string>
+    <string name="Finger_print_ES">Ingresar con huella</string>
+</resources>
