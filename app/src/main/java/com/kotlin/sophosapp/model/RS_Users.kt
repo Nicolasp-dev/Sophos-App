@@ -1,9 +1,9 @@
 package com.kotlin.sophosapp.model
 
-data class RS_Users(
+data class RS_User(
+    val id: String,
+    val nombre: String,
+    val apellido: String,
     val acceso: Boolean,
     val admin: Boolean,
-    val apellido: String,
-    val id: String,
-    val nombre: String
 )
