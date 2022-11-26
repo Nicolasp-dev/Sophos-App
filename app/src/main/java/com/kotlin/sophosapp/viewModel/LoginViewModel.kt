@@ -1,18 +1,28 @@
 package com.kotlin.sophosapp.viewModel
 
 import android.util.Log
+import android.widget.Toast
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kotlin.sophosapp.api.Constants
 import com.kotlin.sophosapp.api.UserService
 import com.kotlin.sophosapp.model.RS_User
+import com.kotlin.sophosapp.model.isAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executor
 
 class LoginViewModel: ViewModel() {
+
+  private lateinit var executor: Executor
+  private lateinit var biometricPromptInfo: BiometricPrompt.PromptInfo
+  private lateinit var biometricPrompt: BiometricPrompt
 
   private val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl(Constants.BASE_URL)
@@ -22,7 +32,9 @@ class LoginViewModel: ViewModel() {
   private val service: UserService = retrofit.create(UserService::class.java)
 
   val userData = MutableLiveData<RS_User?>()
+  val userAuth = MutableLiveData<isAuth?>()
 
+  // ------------------ [ LOGIN WITH CREDENTIALS ] ----------------------- //
   fun login(email: String, password: String){
     val call = service.fetchCredentials(email, password)
     call.enqueue(object : Callback<RS_User>{
@@ -51,7 +63,37 @@ class LoginViewModel: ViewModel() {
         Log.e("Error", t.message.toString())
         call.cancel()
       }
-
     })
+  }
+  // ------------------ [ LOGIN WITH FINGERPRINT ] ----------------------- //
+  fun fingerPrintAuth(context: FragmentActivity){
+
+    biometricPromptInfo = BiometricPrompt.PromptInfo.Builder()
+      .setTitle("Biometric Login")
+      .setSubtitle("You can enter using your biometric credentials")
+      .setNegativeButtonText("Cancel")
+      .build()
+
+    executor = context.let { ContextCompat.getMainExecutor(context) }
+
+    biometricPrompt = BiometricPrompt(context, executor, object: BiometricPrompt.AuthenticationCallback(){
+
+      override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+        super.onAuthenticationError(errorCode, errString)
+        Toast.makeText(context, errString.toString(), Toast.LENGTH_SHORT).show()
+      }
+
+      override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+        super.onAuthenticationSucceeded(result)
+        Toast.makeText(context, "Biometric Authentication Success", Toast.LENGTH_SHORT).show()
+        userAuth.postValue(isAuth(true))
+      }
+
+      override fun onAuthenticationFailed() {
+        super.onAuthenticationFailed()
+        Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show()
+      }
+    })
+    biometricPrompt.authenticate(biometricPromptInfo)
   }
 }

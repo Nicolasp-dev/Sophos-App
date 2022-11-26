@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
+    <item
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_menu"
+        android:title=""
+        >
+        <menu>
+            <item
+                android:id="@+id/op_send_docs"
+                android:title="@string/send_documents_ES"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/op_see_docs"
+                android:title="@string/see_documents_ES"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/op_office"
+                android:title="@string/office_ES"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/op_theme"
+                android:title="@string/night_theme_ES"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/op_language"
+                android:title="@string/language_ES"
+                app:showAsAction="never"
+                />
+        </menu>
+    </item>
 </menu>

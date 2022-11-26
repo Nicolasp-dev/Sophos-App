@@ -15,4 +15,12 @@
     <string name="welcome_text_ES">Bienvenido</string>
     <string name="our_options_text_ES">Estas son las opciones \n que tenemos para ti</string>
     <string name="main_sophos_image_description">Main Sophos Image</string>
+    <string name="night_theme_ES">Modo nocturno</string>
+    <string name="language_ES">Idioma Ingles</string>
+    <string name="send_docs_text_ES">Envio de documentación</string>
+    <string name="names_ES">Nombres</string>
+    <string name="last_names_ES">Apellidos</string>
+    <string name="email_ES">Email</string>
+    <string name="city_ES">Ciudad</string>
+    <string name="documents_ES">Documento</string>
 </resources>
