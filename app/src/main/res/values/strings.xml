@@ -23,4 +23,5 @@
     <string name="email_ES">Email</string>
     <string name="city_ES">Ciudad</string>
     <string name="documents_ES">Documento</string>
+    <string name="send_ES">Enviar</string>
 </resources>

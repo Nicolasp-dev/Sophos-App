@@ -14,5 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- 1. Icon item || 2.  -->
+        <item name="colorControlNormal">@color/light_purple</item>
+        <item name="titleTextColor">@color/light_purple</item>
+
+    </style>
+
 
 </resources>

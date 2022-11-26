@@ -1,12 +1,15 @@
 package com.kotlin.sophosapp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentLoginBinding
@@ -21,15 +24,13 @@ class LoginFragment : Fragment() {
   private lateinit var viewModel: LoginViewModel
   private lateinit var email: String
   private lateinit var password: String
+  private var bundle = Bundle()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
   }
 
-
-
   override fun onCreateView(
-
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
@@ -46,16 +47,22 @@ class LoginFragment : Fragment() {
       viewModel.userData.observe(viewLifecycleOwner) { user ->
         run {
           if (user!!.acceso) {
-            val fragment = MenuFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.frame_container, fragment).commit()
-            Toast.makeText(activity, "Welcome Back", Toast.LENGTH_SHORT).show()
+            val menuFragment = MenuFragment()
+            bundle.putString("userName", user.nombre)
+            menuFragment.arguments = bundle
+            (activity as AppCompatActivity).supportFragmentManager.commit {
+              replace(R.id.frame_container, menuFragment)
+              setReorderingAllowed(true)
+              addToBackStack("replacement")
+            }
+            Toast.makeText(activity, "Welcome Back ${user.nombre}", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
           }
         }
       }
     }
+
     // ------------------ [ LOGIN WITH FINGERPRINT ] ----------------------- //
     _binding.btnFingerprintLogin.setOnClickListener{
 
