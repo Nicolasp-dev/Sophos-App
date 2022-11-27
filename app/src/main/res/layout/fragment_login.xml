@@ -13,7 +13,6 @@
         android:orientation="vertical"
         tools:context=".view.MainActivity"
         >
-
         <ImageView
             android:id="@+id/ivMain"
             android:layout_width="270dp"
@@ -65,13 +64,13 @@
                 android:textColorHint="@color/light_purple"
                 app:startIconDrawable="@drawable/ic_account_pad"
                 app:startIconTint="@color/light_purple"
+                android:maxLines="1"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/it_login_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:textColor="@color/light_purple"
                     />
             </com.google.android.material.textfield.TextInputLayout>

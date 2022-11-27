@@ -37,9 +37,9 @@ class MenuFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     if(arguments != null){
       val userName = arguments?.getString("userName").toString()
-      MyToolbar().show(activity as AppCompatActivity, userName, false)
+      MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar ,userName, false)
     }else{
-      MyToolbar().show(activity as AppCompatActivity, "Some Name", false)
+      MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar, "Some Name", false)
     }
     // Enable actionbar Display.
   }

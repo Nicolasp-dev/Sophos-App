@@ -2,6 +2,7 @@ package com.kotlin.sophosapp.view
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,8 +24,24 @@ class SendDocumentsFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View {
     _binding = FragmentSendDocumentsBinding.inflate(inflater, container, false )
+
+    // --------------- [Documents dropdown] ---------------------- //
+    val items = listOf("Document1","Document2","Document3","Document4")
+    val adapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, items)
+    binding.dropdownMenuDocument.setAdapter(adapter)
+
+    val cities = listOf("Bogota","Medellin","Seattle","Ontario")
+    val cityAdapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, cities)
+    binding.dropdownMenuCities.setAdapter(cityAdapter)
+
     return binding.root
   }
+
+
+
+
+
+
 
   // ------------------------- [ON CREATE] ------------------------- //
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +52,8 @@ class SendDocumentsFragment : Fragment() {
   // ------------------------- [ON VIEW CREATED] ------------------------- //
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    MyToolbar().show(activity as AppCompatActivity, "Regresar", true)
+
+    MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar, "Regresar", true)
   }
 
   // ------------------------- [OPTION MENU SETTINGS] ------------------------- //

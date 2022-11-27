@@ -1,7 +1,7 @@
 package com.kotlin.sophosapp.view
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentLoginBinding
+import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
 import com.kotlin.sophosapp.viewModel.LoginViewModel
 
 
@@ -28,6 +28,8 @@ class LoginFragment : Fragment() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+
   }
 
   override fun onCreateView(
@@ -42,7 +44,7 @@ class LoginFragment : Fragment() {
     _binding.loginBtn.setOnClickListener{
       email = _binding.itLoginEmail.text.toString().trim()
       password = _binding.itLoginPassword.text.toString().trim()
-      viewModel.login(email, password)
+      viewModel.login(email, password, activity as AppCompatActivity)
 
       viewModel.userData.observe(viewLifecycleOwner) { user ->
         run {
@@ -66,7 +68,7 @@ class LoginFragment : Fragment() {
     // ------------------ [ LOGIN WITH FINGERPRINT ] ----------------------- //
     _binding.btnFingerprintLogin.setOnClickListener{
 
-      activity?.let { it1 -> viewModel.fingerPrintAuth(it1)}
+      activity?.let {it1 -> viewModel.fingerPrintAuth(it1)}
 
       viewModel.userAuth.observe(viewLifecycleOwner){ user ->
         run {
@@ -83,4 +85,5 @@ class LoginFragment : Fragment() {
     }
     return binding.root
   }
+
 }

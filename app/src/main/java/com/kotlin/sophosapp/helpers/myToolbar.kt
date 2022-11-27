@@ -1,12 +1,12 @@
 package com.kotlin.sophosapp.helpers
 
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.kotlin.sophosapp.R
 
 class MyToolbar {
-  fun show(activities: AppCompatActivity, title: String, upButton: Boolean){
-    activities.setSupportActionBar(activities.findViewById(R.id.toolbar))
+  fun show(activities: AppCompatActivity,toolbar: Toolbar, title: String, upButton: Boolean){
+    activities.setSupportActionBar(toolbar)
     activities.supportActionBar?.title = title
     activities.supportActionBar?.setDisplayHomeAsUpEnabled(upButton)
   }
