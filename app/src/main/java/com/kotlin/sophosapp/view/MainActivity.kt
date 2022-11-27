@@ -1,6 +1,5 @@
 package com.kotlin.sophosapp.view
 
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.commit
@@ -18,7 +17,5 @@ class MainActivity : AppCompatActivity() {
       setReorderingAllowed(true)
       addToBackStack("replacement")
     }
-
-
   }
 }

@@ -1,6 +1,5 @@
 package com.kotlin.sophosapp.view
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentLoginBinding
-import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
 import com.kotlin.sophosapp.viewModel.LoginViewModel
 
 
@@ -24,12 +23,9 @@ class LoginFragment : Fragment() {
   private lateinit var viewModel: LoginViewModel
   private lateinit var email: String
   private lateinit var password: String
-  private var bundle = Bundle()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
-
   }
 
   override fun onCreateView(
@@ -49,11 +45,8 @@ class LoginFragment : Fragment() {
       viewModel.userData.observe(viewLifecycleOwner) { user ->
         run {
           if (user!!.acceso) {
-            val menuFragment = MenuFragment()
-            bundle.putString("userName", user.nombre)
-            menuFragment.arguments = bundle
             (activity as AppCompatActivity).supportFragmentManager.commit {
-              replace(R.id.frame_container, menuFragment)
+              replace<MenuFragment>(R.id.frame_container)
               setReorderingAllowed(true)
               addToBackStack("replacement")
             }
@@ -73,9 +66,11 @@ class LoginFragment : Fragment() {
       viewModel.userAuth.observe(viewLifecycleOwner){ user ->
         run {
           if (user!!.auth) {
-            val fragment = MenuFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.frame_container, fragment).commit()
+            (activity as AppCompatActivity).supportFragmentManager.commit {
+              replace<MenuFragment>(R.id.frame_container)
+              setReorderingAllowed(true)
+              addToBackStack("replacement")
+            }
             Toast.makeText(activity, "Welcome Back", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()

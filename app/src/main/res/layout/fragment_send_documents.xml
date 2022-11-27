@@ -154,7 +154,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="30dp"
             android:paddingBottom="10dp"
-            android:text="@string/documents_ES"
+            android:text="@string/document_ES"
             android:textAllCaps="false"
             android:textSize="18sp"
             app:cornerRadius="10dp"

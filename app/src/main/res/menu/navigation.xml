@@ -35,6 +35,11 @@
                 android:title="@string/language_ES"
                 app:showAsAction="never"
                 />
+            <item
+                android:id="@+id/op_logout"
+                android:title="@string/logout_ES"
+                app:showAsAction="never"
+                />
         </menu>
     </item>
 </menu>

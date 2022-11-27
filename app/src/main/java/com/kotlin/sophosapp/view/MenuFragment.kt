@@ -10,6 +10,9 @@ import androidx.fragment.app.replace
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentMenuBinding
 import com.kotlin.sophosapp.helpers.MyToolbar
+import com.kotlin.sophosapp.helpers.UserApp
+import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
+import com.kotlin.sophosapp.helpers.UserApp.Companion.routing
 
 class MenuFragment : Fragment() {
 
@@ -35,13 +38,8 @@ class MenuFragment : Fragment() {
   // ------------------------- [ON VIEW CREATED] ------------------------- //
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    if(arguments != null){
-      val userName = arguments?.getString("userName").toString()
-      MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar ,userName, false)
-    }else{
-      MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar, "Some Name", false)
-    }
-    // Enable actionbar Display.
+    val userName = prefs.getUsername()
+    MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar ,userName, false)
   }
 
   // ------------------------- [OPTION MENU SETTINGS] ------------------------- //
@@ -55,16 +53,6 @@ class MenuFragment : Fragment() {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return when(item.itemId){
-      R.id.op_send_docs -> {
-        Toast.makeText(activity, "Send Documents", Toast.LENGTH_SHORT).show()
-        (activity as AppCompatActivity).supportFragmentManager.commit {
-          replace<SendDocumentsFragment>(R.id.frame_container)
-          setReorderingAllowed(true)
-          addToBackStack("replacement")
-        }
-        true
-      } else -> super.onOptionsItemSelected(item)
-    }
+    return routing.navigation(activity as AppCompatActivity, item)
   }
 }

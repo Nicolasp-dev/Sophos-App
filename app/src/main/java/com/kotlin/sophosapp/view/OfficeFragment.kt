@@ -2,32 +2,51 @@ package com.kotlin.sophosapp.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.kotlin.sophosapp.R
+import com.kotlin.sophosapp.databinding.FragmentMenuBinding
+import com.kotlin.sophosapp.databinding.FragmentOfficeBinding
+import com.kotlin.sophosapp.helpers.MyToolbar
+import com.kotlin.sophosapp.helpers.UserApp
+import com.kotlin.sophosapp.helpers.UserApp.Companion.routing
 import com.kotlin.sophosapp.viewModel.OfficeViewModel
 
 class OfficeFragment : Fragment() {
 
-  companion object {
-    fun newInstance() = OfficeFragment()
-  }
-
+  private lateinit var _binding : FragmentOfficeBinding
+  private val binding get() = _binding
   private lateinit var viewModel: OfficeViewModel
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_office, container, false)
+  ): View {
+    _binding = FragmentOfficeBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    viewModel = ViewModelProvider(this).get(OfficeViewModel::class.java)
-    // TODO: Use the ViewModel
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setHasOptionsMenu(true)
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar, "Regresar", true)
+  }
+
+  @Deprecated("Deprecated in Java")
+  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    inflater.inflate(R.menu.navigation, menu)
+    super.onCreateOptionsMenu(menu, inflater)
+  }
+
+  // Handle click events of the menu.
+  @Deprecated("Deprecated in Java")
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    return routing.navigation(activity as AppCompatActivity, item)
   }
 
 }

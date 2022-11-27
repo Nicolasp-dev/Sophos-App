@@ -22,7 +22,9 @@
     <string name="last_names_ES">Apellidos</string>
     <string name="email_ES">Email</string>
     <string name="city_ES">Ciudad</string>
-    <string name="documents_ES">Documento</string>
+    <string name="document_ES">Documento</string>
+    <string name="documents_ES">Documentos</string>
     <string name="send_ES">Enviar</string>
     <string name="document_type_ES">Tipo de documento</string>
+    <string name="logout_ES">Cerrar sesion</string>
 </resources>

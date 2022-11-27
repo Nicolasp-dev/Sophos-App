@@ -7,10 +7,12 @@ class UserApp: Application() {
 
   companion object{
     lateinit var prefs: Prefs
+    lateinit var routing: Routing
   }
 
   override fun onCreate() {
     super.onCreate()
     prefs = Prefs(applicationContext)
+    routing = Routing(applicationContext)
   }
 }

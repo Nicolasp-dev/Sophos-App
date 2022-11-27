@@ -1,6 +1,5 @@
 package com.kotlin.sophosapp.viewModel
 
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity

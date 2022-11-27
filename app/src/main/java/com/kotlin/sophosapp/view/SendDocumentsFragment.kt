@@ -12,6 +12,8 @@ import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentMenuBinding
 import com.kotlin.sophosapp.databinding.FragmentSendDocumentsBinding
 import com.kotlin.sophosapp.helpers.MyToolbar
+import com.kotlin.sophosapp.helpers.Routing
+import com.kotlin.sophosapp.helpers.UserApp.Companion.routing
 
 class SendDocumentsFragment : Fragment() {
 
@@ -38,11 +40,6 @@ class SendDocumentsFragment : Fragment() {
   }
 
 
-
-
-
-
-
   // ------------------------- [ON CREATE] ------------------------- //
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -66,18 +63,9 @@ class SendDocumentsFragment : Fragment() {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return when(item.itemId){
-      R.id.op_theme -> {
-        Toast.makeText(activity, "Clicked", Toast.LENGTH_SHORT).show()
-        (activity as AppCompatActivity)
-          .supportFragmentManager.commit {
-            replace<MenuFragment>(R.id.frame_container)
-            setReorderingAllowed(true)
-            addToBackStack("replacement")
-        }
-        true
-      } else -> super.onOptionsItemSelected(item)
-    }
+    return routing.navigation(activity as AppCompatActivity, item)
   }
+
+
 
 }
