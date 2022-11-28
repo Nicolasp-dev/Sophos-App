@@ -3,17 +3,12 @@ package com.kotlin.sophosapp.view
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.kotlin.sophosapp.R
-import com.kotlin.sophosapp.databinding.FragmentMenuBinding
 import com.kotlin.sophosapp.databinding.FragmentSendDocumentsBinding
 import com.kotlin.sophosapp.helpers.MyToolbar
 import com.kotlin.sophosapp.helpers.Routing
-import com.kotlin.sophosapp.helpers.UserApp.Companion.routing
 
 class SendDocumentsFragment : Fragment() {
 
@@ -45,13 +40,17 @@ class SendDocumentsFragment : Fragment() {
     super.onCreate(savedInstanceState)
     setHasOptionsMenu(true)
   }
+  // --------------------------------------------------------------- //
 
   // ------------------------- [ON VIEW CREATED] ------------------------- //
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
-    MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar, "Regresar", true)
+    MyToolbar().show(
+      activity as AppCompatActivity,
+      binding.toolbarContainer.toolbar,
+      "Regresar", true)
   }
+
 
   // ------------------------- [OPTION MENU SETTINGS] ------------------------- //
   @Deprecated("Deprecated in Java")
@@ -63,7 +62,7 @@ class SendDocumentsFragment : Fragment() {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return routing.navigation(activity as AppCompatActivity, item)
+    return Routing().navigation(activity as AppCompatActivity, item)
   }
 
 

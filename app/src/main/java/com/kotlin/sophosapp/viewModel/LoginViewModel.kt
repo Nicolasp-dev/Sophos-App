@@ -33,6 +33,7 @@ class LoginViewModel: ViewModel() {
     .build()
   private val service: UserService = retrofit.create(UserService::class.java)
 
+  // --------------------- [LiveData] -------------------------- //
   val userData = MutableLiveData<RS_User?>()
   val userAuth = MutableLiveData<isAuth?>()
 

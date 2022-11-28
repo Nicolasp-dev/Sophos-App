@@ -1,16 +1,13 @@
 package com.kotlin.sophosapp.view
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.kotlin.sophosapp.R
-import com.kotlin.sophosapp.databinding.FragmentMenuBinding
 import com.kotlin.sophosapp.databinding.FragmentOfficeBinding
 import com.kotlin.sophosapp.helpers.MyToolbar
-import com.kotlin.sophosapp.helpers.UserApp
-import com.kotlin.sophosapp.helpers.UserApp.Companion.routing
+import com.kotlin.sophosapp.helpers.Routing
 import com.kotlin.sophosapp.viewModel.OfficeViewModel
 
 class OfficeFragment : Fragment() {
@@ -46,7 +43,7 @@ class OfficeFragment : Fragment() {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return routing.navigation(activity as AppCompatActivity, item)
+    return Routing().navigation(activity as AppCompatActivity, item)
   }
 
 }

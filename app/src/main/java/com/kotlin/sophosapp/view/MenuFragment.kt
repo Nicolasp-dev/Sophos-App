@@ -2,17 +2,13 @@ package com.kotlin.sophosapp.view
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentMenuBinding
 import com.kotlin.sophosapp.helpers.MyToolbar
-import com.kotlin.sophosapp.helpers.UserApp
+import com.kotlin.sophosapp.helpers.Routing
 import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
-import com.kotlin.sophosapp.helpers.UserApp.Companion.routing
 
 class MenuFragment : Fragment() {
 
@@ -25,6 +21,20 @@ class MenuFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View {
     _binding = FragmentMenuBinding.inflate(inflater, container, false)
+
+
+    _binding.btnSendDocuments.setOnClickListener{
+      Routing().goTo(activity as AppCompatActivity, SendDocumentsFragment() )
+    }
+
+    _binding.btnSeeDocuments.setOnClickListener {
+      Routing().goTo(activity as AppCompatActivity, DocumentsFragment())
+    }
+
+    _binding.btnOffice.setOnClickListener {
+      Routing().goTo(activity as AppCompatActivity, OfficeFragment())
+    }
+
     return binding.root
   }
 
@@ -39,7 +49,9 @@ class MenuFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     val userName = prefs.getUsername()
-    MyToolbar().show(activity as AppCompatActivity, binding.toolbarContainer.toolbar ,userName, false)
+    MyToolbar().show(activity as AppCompatActivity,
+      binding.toolbarContainer.toolbar ,
+      userName, false)
   }
 
   // ------------------------- [OPTION MENU SETTINGS] ------------------------- //
@@ -53,6 +65,6 @@ class MenuFragment : Fragment() {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return routing.navigation(activity as AppCompatActivity, item)
+    return Routing().navigation(activity as AppCompatActivity, item)
   }
 }

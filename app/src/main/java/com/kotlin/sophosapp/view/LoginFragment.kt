@@ -12,6 +12,7 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentLoginBinding
+import com.kotlin.sophosapp.helpers.Routing
 import com.kotlin.sophosapp.viewModel.LoginViewModel
 
 
@@ -45,11 +46,7 @@ class LoginFragment : Fragment() {
       viewModel.userData.observe(viewLifecycleOwner) { user ->
         run {
           if (user!!.acceso) {
-            (activity as AppCompatActivity).supportFragmentManager.commit {
-              replace<MenuFragment>(R.id.frame_container)
-              setReorderingAllowed(true)
-              addToBackStack("replacement")
-            }
+            Routing().goTo(activity as AppCompatActivity, MenuFragment())
             Toast.makeText(activity, "Welcome Back ${user.nombre}", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
@@ -66,11 +63,7 @@ class LoginFragment : Fragment() {
       viewModel.userAuth.observe(viewLifecycleOwner){ user ->
         run {
           if (user!!.auth) {
-            (activity as AppCompatActivity).supportFragmentManager.commit {
-              replace<MenuFragment>(R.id.frame_container)
-              setReorderingAllowed(true)
-              addToBackStack("replacement")
-            }
+            Routing().goTo(activity as AppCompatActivity, MenuFragment())
             Toast.makeText(activity, "Welcome Back", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
