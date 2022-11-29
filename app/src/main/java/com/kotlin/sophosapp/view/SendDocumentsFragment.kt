@@ -1,20 +1,25 @@
 package com.kotlin.sophosapp.view
 
-import android.content.Context
-import android.net.Uri
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentSendDocumentsBinding
+import com.kotlin.sophosapp.helpers.Constants
 import com.kotlin.sophosapp.helpers.MyToolbar
 import com.kotlin.sophosapp.helpers.Routing
 import com.kotlin.sophosapp.viewModel.SendDocumentsViewModel
+
 
 class SendDocumentsFragment : Fragment() {
 
@@ -30,7 +35,7 @@ class SendDocumentsFragment : Fragment() {
     viewModel = ViewModelProvider(this)[SendDocumentsViewModel::class.java]
     _binding = FragmentSendDocumentsBinding.inflate(inflater, container, false )
 
-    // --------------- [DOCUMENTS DROPDOWN] ---------------------- //
+    // ------------------- [DOCUMENTS DROPDOWN] ---------------------- //
     val items = listOf("Document1","Document2","Document3","Document4")
     val adapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, items)
     binding.dropdownMenuDocument.setAdapter(adapter)
@@ -41,6 +46,23 @@ class SendDocumentsFragment : Fragment() {
     // -------------------------------------------------------------- //
 
     setClickListener(activity as AppCompatActivity)
+
+    viewModel.cameraAuth.observe(viewLifecycleOwner){
+      data -> run{
+        if(data!!.isAuth){
+          takeImage()
+        }
+      }
+    }
+
+    viewModel.galleryAuth.observe(viewLifecycleOwner){
+        data -> run{
+        if(data!!.isAuth){
+          selectImageFromGallery()
+        }
+      }
+    }
+
 
     return binding.root
   }
@@ -59,18 +81,54 @@ class SendDocumentsFragment : Fragment() {
       .show(activity as AppCompatActivity,binding.toolbarContainer.toolbar,"Regresar", true)
   }
 
-
-  // ------------------------- [OPTION MENU SETTINGS] ------------------------- //
+  // ======================== [OPTION MENU SETTINGS] ============================== //
   @Deprecated("Deprecated in Java")
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
   }
-
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return Routing().navigation(activity as AppCompatActivity, item)
+  }
+  // ==========================[ ACTIVITIES ]================================ //
+  private fun takeImage(){
+    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    startActivityForResult(intent, Constants.CAMERA_REQUEST_CODE)
+  }
+
+  private fun selectImageFromGallery(){
+    val intent = Intent(Intent.ACTION_PICK)
+    intent.type = "image/*"
+    startActivityForResult(intent, Constants.GALLERY_REQUEST_CODE)
+  }
+
+  @Deprecated("Deprecated in Java")
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if(resultCode == Activity.RESULT_OK){
+      when(requestCode){
+        Constants.CAMERA_REQUEST_CODE ->{
+          val bitmap = data?.extras?.get("data") as Bitmap?
+
+          binding.ivAddImage.load(bitmap){
+            crossfade(true)
+            crossfade(1000)
+          }
+        }
+
+        Constants.GALLERY_REQUEST_CODE -> {
+          binding.ivAddImage.load(data?.data){
+            crossfade(true)
+            crossfade(1000)
+          }
+        }
+      }
+    }else{
+      Toast.makeText(activity, "NO ACTION", Toast.LENGTH_SHORT).show()
+    }
   }
 
   private fun setClickListener(context: AppCompatActivity){

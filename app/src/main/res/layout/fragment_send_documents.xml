@@ -17,7 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-
     <TextView
         android:layout_marginTop="20dp"
         android:id="@+id/textView"
@@ -35,8 +34,8 @@
 
     <ImageView
         android:id="@+id/iv_add_image"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="160dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/add_photo"
         app:layout_constraintEnd_toEndOf="parent"
