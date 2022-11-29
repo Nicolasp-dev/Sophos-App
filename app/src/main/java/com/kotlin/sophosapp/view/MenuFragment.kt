@@ -23,6 +23,7 @@ class MenuFragment : Fragment() {
     _binding = FragmentMenuBinding.inflate(inflater, container, false)
 
 
+    // TODO -> This should be at ViewModel ?
     _binding.btnSendDocuments.setOnClickListener{
       Routing().goTo(activity as AppCompatActivity, SendDocumentsFragment() )
     }
@@ -48,6 +49,8 @@ class MenuFragment : Fragment() {
   // ------------------------- [ON VIEW CREATED] ------------------------- //
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
+    // TODO -> This should be at ViewModel ?
     val userName = prefs.getUsername()
     MyToolbar().show(activity as AppCompatActivity,
       binding.toolbarContainer.toolbar ,

@@ -1,7 +1,6 @@
 package com.kotlin.sophosapp.helpers
 
 import android.content.Context
-import com.kotlin.sophosapp.api.Constants
 
 class Prefs(val context: Context) {
   val storage = context.getSharedPreferences(Constants.STORAGE, 0)

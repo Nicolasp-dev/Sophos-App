@@ -1,17 +1,24 @@
 package com.kotlin.sophosapp.view
 
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentSendDocumentsBinding
 import com.kotlin.sophosapp.helpers.MyToolbar
 import com.kotlin.sophosapp.helpers.Routing
+import com.kotlin.sophosapp.viewModel.SendDocumentsViewModel
 
 class SendDocumentsFragment : Fragment() {
 
+  private lateinit var viewModel: SendDocumentsViewModel
   private lateinit var _binding: FragmentSendDocumentsBinding
   private val binding get() = _binding
 
@@ -20,9 +27,10 @@ class SendDocumentsFragment : Fragment() {
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
+    viewModel = ViewModelProvider(this)[SendDocumentsViewModel::class.java]
     _binding = FragmentSendDocumentsBinding.inflate(inflater, container, false )
 
-    // --------------- [Documents dropdown] ---------------------- //
+    // --------------- [DOCUMENTS DROPDOWN] ---------------------- //
     val items = listOf("Document1","Document2","Document3","Document4")
     val adapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, items)
     binding.dropdownMenuDocument.setAdapter(adapter)
@@ -30,6 +38,9 @@ class SendDocumentsFragment : Fragment() {
     val cities = listOf("Bogota","Medellin","Seattle","Ontario")
     val cityAdapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, cities)
     binding.dropdownMenuCities.setAdapter(cityAdapter)
+    // -------------------------------------------------------------- //
+
+    setClickListener(activity as AppCompatActivity)
 
     return binding.root
   }
@@ -40,15 +51,12 @@ class SendDocumentsFragment : Fragment() {
     super.onCreate(savedInstanceState)
     setHasOptionsMenu(true)
   }
-  // --------------------------------------------------------------- //
 
   // ------------------------- [ON VIEW CREATED] ------------------------- //
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    MyToolbar().show(
-      activity as AppCompatActivity,
-      binding.toolbarContainer.toolbar,
-      "Regresar", true)
+    MyToolbar()
+      .show(activity as AppCompatActivity,binding.toolbarContainer.toolbar,"Regresar", true)
   }
 
 
@@ -65,6 +73,8 @@ class SendDocumentsFragment : Fragment() {
     return Routing().navigation(activity as AppCompatActivity, item)
   }
 
-
-
+  private fun setClickListener(context: AppCompatActivity){
+    binding.ivAddImage.setOnClickListener{viewModel.cameraCheckPermission(context)}
+    binding.btnAddDocument.setOnClickListener{viewModel.galleryCheckPermission(context)}
+  }
 }

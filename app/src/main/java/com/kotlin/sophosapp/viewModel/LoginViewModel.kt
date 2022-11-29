@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kotlin.sophosapp.api.Constants
+import com.kotlin.sophosapp.helpers.Constants
 import com.kotlin.sophosapp.api.UserService
 import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
 import com.kotlin.sophosapp.model.RS_User
