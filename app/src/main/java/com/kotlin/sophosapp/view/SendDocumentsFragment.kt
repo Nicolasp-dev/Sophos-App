@@ -35,18 +35,21 @@ class SendDocumentsFragment : Fragment() {
     viewModel = ViewModelProvider(this)[SendDocumentsViewModel::class.java]
     _binding = FragmentSendDocumentsBinding.inflate(inflater, container, false )
 
-    // ------------------- [DOCUMENTS DROPDOWN] ---------------------- //
-    val items = listOf("Document1","Document2","Document3","Document4")
-    val adapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, items)
+    setClickListener(activity as AppCompatActivity)
+    viewModel.getOffice()
+
+    // POPULATE DROPDOWN MENUS: ----------------------------------------------------------------- //
+    val adapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, viewModel.documentsType)
     binding.dropdownMenuDocument.setAdapter(adapter)
 
-    val cities = listOf("Bogota","Medellin","Seattle","Ontario")
-    val cityAdapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, cities)
-    binding.dropdownMenuCities.setAdapter(cityAdapter)
-    // -------------------------------------------------------------- //
+    viewModel.mainCities.observe(viewLifecycleOwner){
+      cities -> run{
+        val cityAdapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, cities)
+        binding.dropdownMenuCities.setAdapter(cityAdapter)
+      }
+    }
 
-    setClickListener(activity as AppCompatActivity)
-
+    // ACTIVITIES: TAKE IMAGE & SELECT IMAGE --------------------------------------------------- //
     viewModel.cameraAuth.observe(viewLifecycleOwner){
       data -> run{
         if(data!!.isAuth){
@@ -54,7 +57,6 @@ class SendDocumentsFragment : Fragment() {
         }
       }
     }
-
     viewModel.galleryAuth.observe(viewLifecycleOwner){
         data -> run{
         if(data!!.isAuth){
@@ -63,6 +65,7 @@ class SendDocumentsFragment : Fragment() {
       }
     }
 
+    //
 
     return binding.root
   }

@@ -22,7 +22,6 @@ class MenuFragment : Fragment() {
   ): View {
     _binding = FragmentMenuBinding.inflate(inflater, container, false)
 
-
     // TODO -> This should be at ViewModel ?
     _binding.btnSendDocuments.setOnClickListener{
       Routing().goTo(activity as AppCompatActivity, SendDocumentsFragment() )

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,20 +22,36 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
+import com.kotlin.sophosapp.R
+import com.kotlin.sophosapp.api.OfficeService
+import com.kotlin.sophosapp.api.RestEngine
+import com.kotlin.sophosapp.api.UserService
 import com.kotlin.sophosapp.helpers.Constants
-import com.kotlin.sophosapp.model.CameraAuth
-import com.kotlin.sophosapp.model.GalleryAuth
-import com.kotlin.sophosapp.model.isAuth
+import com.kotlin.sophosapp.helpers.UserApp
+import com.kotlin.sophosapp.model.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SendDocumentsViewModel: ViewModel() {
 
-  // ====================== [LIVE DATA] ====================== //
+
+  val documentsType = listOf("Cedula de Ciudadania","Cedula de Extranjería", "Pasaporte")
+
+
+
+  // LIVE DATA //
   val cameraAuth = MutableLiveData<CameraAuth?>()
   val galleryAuth = MutableLiveData<GalleryAuth?>()
-  // ========================================================= //
+  val mainCities = MutableLiveData<List<String>>()
 
-  // [ 1. PERMISSIONS ] -------------------------------------------------------//
-  // [ 1.1 PERMISSIONS: CAMERA ] --------------------------------------------- //
+  val citiesList = mutableSetOf<String>()
+
+
+  //  PERMISSIONS //
+  //  1.1 PERMISSIONS: CAMERA //
   fun cameraCheckPermission(context: AppCompatActivity){
     Dexter.withContext(context)
       .withPermissions(
@@ -58,7 +76,7 @@ class SendDocumentsViewModel: ViewModel() {
         }
       }).onSameThread().check()
   }
-  // [ 1.2 PERMISSIONS: GALLERY ] --------------------------------------------------- //
+  // 1.2 PERMISSIONS: GALLERY  //
   fun galleryCheckPermission(context: AppCompatActivity){
     Dexter.withContext(context)
       .withPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -86,8 +104,7 @@ class SendDocumentsViewModel: ViewModel() {
         }
       }).onSameThread().check()
   }
-
-  // ====================== [ RATIONAL DIALOG ] ====================== //
+  //  RATIONAL DIALOG  //
   private fun showRotationalDialogPermission(context: AppCompatActivity){
     AlertDialog.Builder(context)
       .setMessage( "It looks like you have turned off permissions"
@@ -107,4 +124,42 @@ class SendDocumentsViewModel: ViewModel() {
         dialog.dismiss()
       }.show()
   }
+
+  fun getOffice(){
+    val officeService: OfficeService = RestEngine.getRestEngine().create(OfficeService::class.java)
+    val call = officeService.fetchOffice()
+    call.enqueue(object: Callback<RS_Cities>{
+      override fun onResponse(call: Call<RS_Cities>, response: Response<RS_Cities>) {
+        if(response.isSuccessful){
+          val cities =  response.body()!!.Items
+
+          for(city in cities){
+            citiesList.add(city.Ciudad)
+          }
+          mainCities.postValue(citiesList.toList())
+
+        }else {
+          when (response.code()) {
+            400 -> {
+              Log.e("Error 400", "Bad Connection")
+            }
+            404 -> {
+              Log.e("Error 404", "Not found")
+            }
+            else -> {
+              Log.e("Error", "Generic Error")
+            }
+          }
+        }
+      }
+
+      override fun onFailure(call: Call<RS_Cities>, t: Throwable) {
+        Log.e("Error", t.message.toString())
+        call.cancel()
+      }
+    })
+  }
+
+
+
 }

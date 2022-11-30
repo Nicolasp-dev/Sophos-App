@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kotlin.sophosapp.api.RestEngine
 import com.kotlin.sophosapp.helpers.Constants
 import com.kotlin.sophosapp.api.UserService
 import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
@@ -27,13 +28,8 @@ class LoginViewModel: ViewModel() {
   private lateinit var biometricPromptInfo: BiometricPrompt.PromptInfo
   private lateinit var biometricPrompt: BiometricPrompt
 
-  private val retrofit: Retrofit = Retrofit.Builder()
-    .baseUrl(Constants.BASE_URL)
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
-  private val service: UserService = retrofit.create(UserService::class.java)
 
-  // --------------------- [LiveData] -------------------------- //
+  // LIVEDATA //
   val userData = MutableLiveData<RS_User?>()
   val userAuth = MutableLiveData<isAuth?>()
 
@@ -42,7 +38,8 @@ class LoginViewModel: ViewModel() {
     val validEmail =  emailValidation(email)
 
     if(validEmail){
-      val call = service.fetchCredentials(email, password)
+      val userService: UserService = RestEngine.getRestEngine().create(UserService::class.java)
+      val call = userService.fetchCredentials(email, password)
       call.enqueue(object : Callback<RS_User>{
 
         override fun onResponse(call: Call<RS_User>, response: Response<RS_User>) {
@@ -51,7 +48,6 @@ class LoginViewModel: ViewModel() {
             userData.postValue(responseBody)
             prefs.storeUsername(responseBody!!.nombre)
             prefs.storeUserEmail(email)
-            //Log.d("Success Response", responseBody.toString())
           }else {
             when (response.code()) {
               400 -> {
