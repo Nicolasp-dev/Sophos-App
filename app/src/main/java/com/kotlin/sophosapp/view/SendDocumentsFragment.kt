@@ -1,8 +1,10 @@
 package com.kotlin.sophosapp.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -18,6 +20,7 @@ import com.kotlin.sophosapp.databinding.FragmentSendDocumentsBinding
 import com.kotlin.sophosapp.helpers.Constants
 import com.kotlin.sophosapp.helpers.MyToolbar
 import com.kotlin.sophosapp.helpers.Routing
+import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
 import com.kotlin.sophosapp.viewModel.SendDocumentsViewModel
 
 
@@ -26,8 +29,10 @@ class SendDocumentsFragment : Fragment() {
   private lateinit var viewModel: SendDocumentsViewModel
   private lateinit var _binding: FragmentSendDocumentsBinding
   private val binding get() = _binding
+  private var encodedImage: String? = null
 
   // ------------------------- [ON CREATE VIEW] ------------------------- //
+  @SuppressLint("UseCompatLoadingForDrawables")
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
@@ -41,7 +46,6 @@ class SendDocumentsFragment : Fragment() {
     // POPULATE DROPDOWN MENUS: ----------------------------------------------------------------- //
     val adapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, viewModel.documentsType)
     binding.dropdownMenuDocument.setAdapter(adapter)
-
     viewModel.mainCities.observe(viewLifecycleOwner){
       cities -> run{
         val cityAdapter =  ArrayAdapter(activity as AppCompatActivity, R.layout.list_documents, cities)
@@ -57,6 +61,7 @@ class SendDocumentsFragment : Fragment() {
         }
       }
     }
+
     viewModel.galleryAuth.observe(viewLifecycleOwner){
         data -> run{
         if(data!!.isAuth){
@@ -64,12 +69,33 @@ class SendDocumentsFragment : Fragment() {
         }
       }
     }
-
     //
+
+    val email = prefs.getUserEmail()
+    _binding.itEmail.setText(email)
+
+    binding.btnSubmit.setOnClickListener {
+      // User Data
+      val image = encodedImage.toString()
+      val documentType = _binding.dropdownMenuDocument.text.toString()
+      val documentId = _binding.itDocumentId.text.toString()
+      val name = _binding.itName.text.toString()
+      val lastname = _binding.itLastname.text.toString()
+      val city = _binding.dropdownMenuCities.text.toString()
+
+      viewModel.submitData(image, documentType, documentId, name, lastname, email, city, activity as AppCompatActivity )
+
+
+      _binding.ivAddImage.setImageDrawable(resources.getDrawable(R.drawable.add_photo))
+      _binding.dropdownMenuDocument.setText("")
+      _binding.itDocumentId.setText("")
+      _binding.itName.setText("")
+      _binding.itLastname.setText("")
+      _binding.dropdownMenuCities.setText("")
+    }
 
     return binding.root
   }
-
 
   // ------------------------- [ON CREATE] ------------------------- //
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +108,7 @@ class SendDocumentsFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     MyToolbar()
       .show(activity as AppCompatActivity,binding.toolbarContainer.toolbar,"Regresar", true)
+
   }
 
   // ======================== [OPTION MENU SETTINGS] ============================== //
@@ -95,6 +122,7 @@ class SendDocumentsFragment : Fragment() {
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return Routing().navigation(activity as AppCompatActivity, item)
   }
+
   // ==========================[ ACTIVITIES ]================================ //
   private fun takeImage(){
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -114,7 +142,8 @@ class SendDocumentsFragment : Fragment() {
     if(resultCode == Activity.RESULT_OK){
       when(requestCode){
         Constants.CAMERA_REQUEST_CODE ->{
-          val bitmap = data?.extras?.get("data") as Bitmap?
+          val bitmap = data?.extras?.get("data") as Bitmap
+          encodedImage = viewModel.encodeImage(bitmap)
 
           binding.ivAddImage.load(bitmap){
             crossfade(true)
@@ -123,7 +152,12 @@ class SendDocumentsFragment : Fragment() {
         }
 
         Constants.GALLERY_REQUEST_CODE -> {
-          binding.ivAddImage.load(data?.data){
+          val image = data?.data
+          val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, image)
+          encodedImage = viewModel.encodeImage(bitmap)
+          //Log.i("ENCODED IMAGE", encodeImg.toString())
+
+          binding.ivAddImage.load(bitmap){
             crossfade(true)
             crossfade(1000)
           }
@@ -138,4 +172,5 @@ class SendDocumentsFragment : Fragment() {
     binding.ivAddImage.setOnClickListener{viewModel.cameraCheckPermission(context)}
     binding.btnAddDocument.setOnClickListener{viewModel.galleryCheckPermission(context)}
   }
+
 }

@@ -39,8 +39,9 @@ class LoginViewModel: ViewModel() {
 
     if(validEmail){
       val userService: UserService = RestEngine.getRestEngine().create(UserService::class.java)
-      val call = userService.fetchCredentials(email, password)
-      call.enqueue(object : Callback<RS_User>{
+
+      userService.fetchCredentials(email, password)
+        .enqueue(object : Callback<RS_User>{
 
         override fun onResponse(call: Call<RS_User>, response: Response<RS_User>) {
           if(response.isSuccessful){
@@ -62,6 +63,7 @@ class LoginViewModel: ViewModel() {
             }
           }
         }
+
         override fun onFailure(call: Call<RS_User>, t: Throwable) {
           Log.e("Error", t.message.toString())
           call.cancel()

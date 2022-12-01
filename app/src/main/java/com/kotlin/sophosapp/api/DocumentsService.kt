@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface DocumentsService {
   @POST("RS_Documentos")
-  fun sendDocument(@Body post: RS_Docs_Submmit): Call<RS_Docs_Submmit>
+  fun sendDocument(@Body userData: RS_Docs_Submmit): Call<RS_Docs_Submmit>
 }

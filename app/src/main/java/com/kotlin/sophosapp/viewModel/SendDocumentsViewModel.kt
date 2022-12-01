@@ -2,17 +2,17 @@ package com.kotlin.sophosapp.viewModel
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Base64
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.karumi.dexter.Dexter
@@ -22,31 +22,25 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
-import com.kotlin.sophosapp.R
+import com.kotlin.sophosapp.api.DocumentsService
 import com.kotlin.sophosapp.api.OfficeService
 import com.kotlin.sophosapp.api.RestEngine
-import com.kotlin.sophosapp.api.UserService
 import com.kotlin.sophosapp.helpers.Constants
-import com.kotlin.sophosapp.helpers.UserApp
 import com.kotlin.sophosapp.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import java.io.ByteArrayOutputStream
+
 
 class SendDocumentsViewModel: ViewModel() {
 
-
   val documentsType = listOf("Cedula de Ciudadania","Cedula de Extranjería", "Pasaporte")
-
-
 
   // LIVE DATA //
   val cameraAuth = MutableLiveData<CameraAuth?>()
   val galleryAuth = MutableLiveData<GalleryAuth?>()
   val mainCities = MutableLiveData<List<String>>()
-
   val citiesList = mutableSetOf<String>()
 
 
@@ -132,10 +126,7 @@ class SendDocumentsViewModel: ViewModel() {
       override fun onResponse(call: Call<RS_Cities>, response: Response<RS_Cities>) {
         if(response.isSuccessful){
           val cities =  response.body()!!.Items
-
-          for(city in cities){
-            citiesList.add(city.Ciudad)
-          }
+          cities.forEach { city-> citiesList.add(city.Ciudad) }
           mainCities.postValue(citiesList.toList())
 
         }else {
@@ -160,6 +151,53 @@ class SendDocumentsViewModel: ViewModel() {
     })
   }
 
+  fun encodeImage(bm: Bitmap): String {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+    val byteArray = byteArrayOutputStream.toByteArray()
+    return Base64.encodeToString(byteArray, Base64.DEFAULT)
+  }
 
+  fun submitData(image: String, docType: String, docId: String, name: String,
+                 lastname: String, email: String, city: String, context: AppCompatActivity ){
+
+    val docsService: DocumentsService = RestEngine.getRestEngine().create(DocumentsService::class.java)
+
+    val data = RS_Docs_Submmit(docType,docId,name,lastname,city,email, ".jpg",image)
+
+    Log.i("SUBMITTED DATA", data.toString())
+
+    docsService.sendDocument(data)
+      .enqueue(object: Callback<RS_Docs_Submmit>{
+
+      override fun onResponse(call: Call<RS_Docs_Submmit>, response: Response<RS_Docs_Submmit>) {
+        if(response.isSuccessful){
+           Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+        }else {
+          Log.i("CALL REQUEST",call.request().toString())
+
+          when (response.code()) {
+            400 -> {
+              Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+              Log.e("Error 400", "Bad Connection")
+            }
+            404 -> {
+              Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+              Log.e("Error 404", "Not found")
+            }
+            else -> {
+              Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+              Log.e("Error", "Generic Error")
+            }
+          }
+        }
+      }
+
+      override fun onFailure(call: Call<RS_Docs_Submmit>, t: Throwable) {
+        Log.e("Error", t.message.toString())
+        call.cancel()
+      }
+    })
+  }
 
 }

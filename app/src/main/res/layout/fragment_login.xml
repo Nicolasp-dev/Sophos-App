@@ -130,21 +130,16 @@
                 />
 
                 <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_fingerprint_login"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="10dp"
-                app:cornerRadius="10dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/Finger_print_ES"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/light_purple"
-                app:strokeWidth="2dp"
-                app:strokeColor="@color/light_purple"
-                app:icon="@drawable/ic_fingerprint"
-                app:iconTint="@color/light_purple"
-                android:textAllCaps="false"
+                    style="@style/FingerPrintButton"
+                    android:id="@+id/btn_fingerprint_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    app:cornerRadius="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/Finger_print_ES"
+                    android:textAllCaps="false"
                 />
         </LinearLayout>
 

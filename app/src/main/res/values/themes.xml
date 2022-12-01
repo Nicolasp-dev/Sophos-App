@@ -1,25 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.SophosApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <!-- 1. Icon item || 2.  -->
         <item name="colorControlNormal">@color/light_purple</item>
         <item name="titleTextColor">@color/light_purple</item>
+    </style>
+
+    <style name="FingerPrintButton" parent="ThemeOverlay.Material3.Button">
+        <!-- 1. Icon item || 2.  -->
+        <item name="android:textColor">@color/light_purple</item>
+        <item name="strokeColor">@color/light_purple</item>
+        <item name="strokeWidth">@dimen/btnBorderStroke</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="icon">@drawable/ic_fingerprint</item>
+        <item name="iconTint">@color/light_purple</item>
 
     </style>
+
 
 
 </resources>
