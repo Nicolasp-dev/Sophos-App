@@ -69,7 +69,6 @@ class SendDocumentsFragment : Fragment() {
         }
       }
     }
-    //
 
     val email = prefs.getUserEmail()
     _binding.itEmail.setText(email)
@@ -85,7 +84,6 @@ class SendDocumentsFragment : Fragment() {
 
       viewModel.submitData(image, documentType, documentId, name, lastname, email, city, activity as AppCompatActivity )
 
-
       _binding.ivAddImage.setImageDrawable(resources.getDrawable(R.drawable.add_photo))
       _binding.dropdownMenuDocument.setText("")
       _binding.itDocumentId.setText("")
@@ -93,7 +91,6 @@ class SendDocumentsFragment : Fragment() {
       _binding.itLastname.setText("")
       _binding.dropdownMenuCities.setText("")
     }
-
     return binding.root
   }
 

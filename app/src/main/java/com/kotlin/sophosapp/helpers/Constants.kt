@@ -5,6 +5,7 @@ object Constants {
   const val STORAGE: String = "Storage"
   const val SHARED_USER_NAME: String = "UserName"
   const val SHARED_USER_EMAIL: String = "userEmail"
+  const val ID_REGISTER: String = "idRegistro"
   const val CAMERA_REQUEST_CODE = 1
   const val GALLERY_REQUEST_CODE = 2
  }

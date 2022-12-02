@@ -165,20 +165,17 @@ class SendDocumentsViewModel: ViewModel() {
 
     val data = RS_Docs_Submmit(docType,docId,name,lastname,city,email, ".jpg",image)
 
-    Log.i("SUBMITTED DATA", data.toString())
-
     docsService.sendDocument(data)
       .enqueue(object: Callback<RS_Docs_Submmit>{
 
       override fun onResponse(call: Call<RS_Docs_Submmit>, response: Response<RS_Docs_Submmit>) {
         if(response.isSuccessful){
-           Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+           Toast.makeText(context, "DOCUMENT SUBMITTED", Toast.LENGTH_SHORT).show()
         }else {
-          Log.i("CALL REQUEST",call.request().toString())
 
           when (response.code()) {
             400 -> {
-              Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+              Toast.makeText(context, "Image exceed the allowed size", Toast.LENGTH_SHORT).show()
               Log.e("Error 400", "Bad Connection")
             }
             404 -> {

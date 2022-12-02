@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kotlin.sophosapp.api.RestEngine
-import com.kotlin.sophosapp.helpers.Constants
 import com.kotlin.sophosapp.api.UserService
 import com.kotlin.sophosapp.helpers.UserApp.Companion.prefs
 import com.kotlin.sophosapp.model.RS_User
@@ -17,8 +16,6 @@ import com.kotlin.sophosapp.model.isAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.Executor
 
 

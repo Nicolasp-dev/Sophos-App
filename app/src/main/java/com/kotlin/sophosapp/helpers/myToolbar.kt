@@ -10,8 +10,5 @@ class MyToolbar {
     activities.setSupportActionBar(toolbar)
     activities.supportActionBar?.title = title
     activities.supportActionBar?.setDisplayHomeAsUpEnabled(upButton)
-
   }
-
-  // TODO Navigation Controller ...
 }

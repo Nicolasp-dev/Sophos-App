@@ -14,10 +14,16 @@ class Routing {
 // val context: Context
 
 
-  fun navigation(context: AppCompatActivity, item: MenuItem): Boolean{
+  fun navigation(context: AppCompatActivity, item: MenuItem, goBack: Boolean = false): Boolean{
     return when(item.itemId){
       android.R.id.home -> {
-        goTo(context, MenuFragment())
+        if(goBack){
+          context.supportFragmentManager.commit{
+            context.onBackPressed()
+          }
+        }else{
+          goTo(context, MenuFragment())
+        }
         true
       }
       R.id.op_send_docs -> {
