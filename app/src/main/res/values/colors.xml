@@ -9,5 +9,6 @@
     <color name="main_fade_blue">#B34500FF</color>
     <color name="main_green">#05667C</color>
     <color name="main_fade_green">#B305667C</color>
+    <color name="loading_grey">#B3AAAAAA</color>
 
 </resources>

@@ -3,8 +3,6 @@ package com.kotlin.sophosapp.ui.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.utils.Communicator
 import com.kotlin.sophosapp.utils.Constants
@@ -17,11 +15,7 @@ class MainActivity : AppCompatActivity(), Communicator {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    supportFragmentManager.commit {
-      replace<LoginFragment>(R.id.view_container)
-      setReorderingAllowed(true)
-      addToBackStack(null)
-    }
+    Routing().goTo(this, LoginFragment())
   }
 
   override fun passData(id: String) {

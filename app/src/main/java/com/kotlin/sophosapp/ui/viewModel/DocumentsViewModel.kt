@@ -14,8 +14,10 @@ import retrofit2.Response
 class DocumentsViewModel : ViewModel() {
 
   val documents = MutableLiveData<RS_Docs_Get?>()
+  val isLoading = MutableLiveData<Boolean>()
 
   fun getDocuments(){
+    isLoading.postValue(true)
     val email = prefs.getUserEmail()
 
     DocumentsService().fetchDocumentsByEmail(email)
@@ -23,6 +25,7 @@ class DocumentsViewModel : ViewModel() {
 
       override fun onResponse(call: Call<RS_Docs_Get>, response: Response<RS_Docs_Get>) {
         if(response.isSuccessful){
+          isLoading.postValue(false)
           val responseBody = response.body()
           documents.postValue(responseBody)
         }else {

@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_right"
+        app:navigationIcon="@drawable/ic_backspace"
         style="@style/ToolbarTheme"
-
         />
 
 </com.google.android.material.appbar.AppBarLayout>

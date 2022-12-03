@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +39,16 @@ class DocumentsFragment : Fragment() {
     viewModel = ViewModelProvider(this)[DocumentsViewModel::class.java]
     communicator = activity as Communicator
 
+    /*
+    viewModel.isLoading.observe(viewLifecycleOwner){
+        currentState -> _binding.progressBar.isVisible = currentState
+    }
+     */
+
     viewModel.getDocuments()
+
+
+
 
     return binding.root
   }
@@ -56,7 +66,10 @@ class DocumentsFragment : Fragment() {
     recyclerView = _binding.docsRecyclerView
 
     viewModel.documents.observe(viewLifecycleOwner){
+
       documents -> run{
+      _binding.loadingSchema.isVisible = false
+      _binding.docsRecyclerView.isVisible = true
          recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             documentAdapter =  DocumentsAdapter(documents!!)
@@ -64,7 +77,6 @@ class DocumentsFragment : Fragment() {
             documentAdapter.onItemClick = {
               documents -> run{
                 communicator.passData(documents.IdRegistro)
-
               }
             }
          }

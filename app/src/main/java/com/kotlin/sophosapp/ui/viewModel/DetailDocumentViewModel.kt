@@ -23,12 +23,13 @@ class DetailDocumentViewModel : ViewModel() {
 
       override fun onResponse(call: Call<RS_Docs_Get>, response: Response<RS_Docs_Get>) {
         if(response.isSuccessful){
+          isLoading.postValue(false)
           val responseBody = response.body()
           responseBody!!.Items.forEach { item ->
             val image = decodeRespImage(item.Adjunto)
             decodedImage.postValue(image)
           }
-          isLoading.postValue(false)
+
         }else{
           NonSuccessResponse().message(response.code())
         }
