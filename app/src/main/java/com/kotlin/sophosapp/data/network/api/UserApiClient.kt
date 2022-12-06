@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface UserApiClient {
   @GET(RS_USERS)
   fun fetchCredentials(
-    @Query(ID_REGISTER) userEmail: String,
+    @Query("idUsuario") userEmail: String,
     @Query("clave") userPassword: String
   ): Call<RS_User>
 }

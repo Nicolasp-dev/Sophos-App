@@ -40,7 +40,7 @@ class LoginViewModel: ViewModel() {
           if(response.isSuccessful){
             val responseBody = response.body()
             userData.postValue(responseBody)
-            prefs.storeUsername(responseBody!!.nombre)
+            prefs.storeUsername(responseBody!!.name)
             prefs.storeUserEmail(email)
           }else {
             NonSuccessResponse().message(response.code())

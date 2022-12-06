@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.view.DocumentsFragment"
+    android:background="@color/background"
     >
 
     <include
@@ -27,7 +28,7 @@
         android:letterSpacing="0.03"
         android:text="@string/documents_ES"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/header_text_color"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -38,6 +39,8 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
         android:id="@+id/docs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,6 +82,13 @@
                 layout="@layout/loading_document"
                 android:layout_marginBottom="10dp"
                 />
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/loading_document"
+                android:layout_marginBottom="10dp"
+                />
+
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

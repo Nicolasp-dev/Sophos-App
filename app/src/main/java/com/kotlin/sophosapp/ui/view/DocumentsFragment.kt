@@ -1,6 +1,7 @@
 package com.kotlin.sophosapp.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
@@ -39,16 +40,7 @@ class DocumentsFragment : Fragment() {
     viewModel = ViewModelProvider(this)[DocumentsViewModel::class.java]
     communicator = activity as Communicator
 
-    /*
-    viewModel.isLoading.observe(viewLifecycleOwner){
-        currentState -> _binding.progressBar.isVisible = currentState
-    }
-     */
-
     viewModel.getDocuments()
-
-
-
 
     return binding.root
   }
@@ -70,15 +62,15 @@ class DocumentsFragment : Fragment() {
       documents -> run{
       _binding.loadingSchema.isVisible = false
       _binding.docsRecyclerView.isVisible = true
-         recyclerView.apply {
-            layoutManager = LinearLayoutManager(activity)
-            documentAdapter =  DocumentsAdapter(documents!!)
-            recyclerView.adapter = documentAdapter
-            documentAdapter.onItemClick = {
-              documents -> run{
-                communicator.passData(documents.IdRegistro)
-              }
+       recyclerView.apply {
+          layoutManager = LinearLayoutManager(activity)
+          documentAdapter =  DocumentsAdapter(documents!!)
+          recyclerView.adapter = documentAdapter
+          documentAdapter.onItemClick = {
+            documents -> run{
+              communicator.passData(documents.idRegister)
             }
+          }
          }
       }
     }

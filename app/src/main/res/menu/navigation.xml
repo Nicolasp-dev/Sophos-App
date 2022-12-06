@@ -7,6 +7,7 @@
     <item
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_purple"
+        android:iconTint="@color/main_text_color"
         android:title=""
         >
         <menu>

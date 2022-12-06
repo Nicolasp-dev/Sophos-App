@@ -1,6 +1,7 @@
 package com.kotlin.sophosapp.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -64,5 +65,4 @@ class DetailDocumentFragment : Fragment() {
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return Routing().navigation(activity as AppCompatActivity, item, true)
   }
-
 }

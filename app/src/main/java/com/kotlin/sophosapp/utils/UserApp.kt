@@ -13,5 +13,6 @@ class UserApp: Application() {
   override fun onCreate() {
     super.onCreate()
     prefs = Prefs(applicationContext)
+    prefs.storeTheme(Constants.LIGHT_THEME)
   }
 }

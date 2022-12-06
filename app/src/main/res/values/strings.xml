@@ -30,4 +30,5 @@
     <string name="document_id">Numero de documento</string>
     <string name="API_KEY">AIzaSyBDHLI68Y3b8yssbH4_NKYK-LACfwNAr2c</string>
     <string name="detail_document_image">Detail Document Image</string>
+    <string name="description_ES">Descripción</string>
 </resources>

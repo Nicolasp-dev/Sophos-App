@@ -8,9 +8,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentLoginBinding
 import com.kotlin.sophosapp.utils.Routing
 import com.kotlin.sophosapp.ui.viewModel.LoginViewModel
+import com.kotlin.sophosapp.utils.Constants
+import com.kotlin.sophosapp.utils.UserApp.Companion.prefs
 
 
 class LoginFragment : Fragment() {
@@ -31,6 +34,13 @@ class LoginFragment : Fragment() {
     viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
     _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
+    if(prefs.getStoreTheme() == Constants.LIGHT_THEME){
+      _binding.ivMain.setImageResource(R.drawable.sophos_logo_light)
+    }else{
+      _binding.ivMain.setImageResource(R.drawable.sophos_logo_dark)
+    }
+
+
     // ------------------ [ LOGIN WITH CREDENTIALS ] ----------------------- //
     _binding.loginBtn.setOnClickListener{
       email = _binding.itLoginEmail.text.toString().trim()
@@ -40,9 +50,9 @@ class LoginFragment : Fragment() {
 
       viewModel.userData.observe(viewLifecycleOwner) { user ->
         run {
-          if (user!!.acceso) {
+          if (user!!.access) {
             Routing().goTo(activity as AppCompatActivity, MenuFragment())
-            Toast.makeText(activity, "Welcome Back ${user.nombre}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Welcome Back ${user.name}", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
           }
@@ -57,7 +67,7 @@ class LoginFragment : Fragment() {
 
       viewModel.userAuth.observe(viewLifecycleOwner){ user ->
         run {
-          if (user!!.auth) {
+          if (user!!.isAuth) {
             Routing().goTo(activity as AppCompatActivity, MenuFragment())
             Toast.makeText(activity, "Welcome Back", Toast.LENGTH_SHORT).show()
           } else {

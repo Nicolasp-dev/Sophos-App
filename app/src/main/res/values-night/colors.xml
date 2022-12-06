@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="background">#3A275B</color>
+
+    <color name="primary_card_color">#FE1191</color>
+    <color name="primary_card_text">#FFFF</color>
+    <color name="primary_card_color_fade">#B3FE1191</color>
+    <color name="primary_card_btn_color">#CCFE1191</color>
+    <color name="primary_card_bg">#CCFE1191</color>
+
+    <color name="secondary_card_color">#4500FF</color>
+    <color name="secondary_card_text">#FFFF</color>
+    <color name="secondary_card_color_fade">#B34500FF</color>
+    <color name="secondary_card_btn_color">#CC4500FF</color>
+    <color name="secondary_card_bg">#B34500FF</color>
+
+    <color name="tertiary_card_color">#05667C</color>
+    <color name="tertiary_card_text">#FFFF</color>
+    <color name="tertiary_card_color_fade">#B305667C</color>
+    <color name="tertiary_card_btn_color">#CC05667C</color>
+    <color name="tertiary_card_bg">#CCFE1191</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="loading_grey">#B3AAAAAA</color>
+
+    <color name="main_text_color">#FFF</color>
+    <color name="primary_text_color">#3A275B</color>
+
+    <color name="outline_main_color">#3A275B</color>
+    <color name="login_text_color">#3A275B</color>
+
+    <color name="input_text_color">#FFFF</color>
+
+    <color name="header_text_color">#FFFF</color>
+
+
+</resources>

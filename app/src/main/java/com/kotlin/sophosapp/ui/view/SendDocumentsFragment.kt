@@ -6,10 +6,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -37,6 +39,13 @@ class SendDocumentsFragment : Fragment() {
   ): View {
     viewModel = ViewModelProvider(this)[SendDocumentsViewModel::class.java]
     _binding = FragmentSendDocumentsBinding.inflate(inflater, container, false )
+
+    val theme = prefs.getStoreTheme()
+    if(theme == Constants.LIGHT_THEME){
+      _binding.ivAddImage.setImageResource(R.drawable.add_photo)
+    }else{
+      _binding.ivAddImage.setImageResource(R.drawable.add_photo_dark)
+    }
 
     setClickListener(activity as AppCompatActivity)
     viewModel.getOffice()
@@ -74,13 +83,14 @@ class SendDocumentsFragment : Fragment() {
 
     binding.btnSubmit.setOnClickListener {
       val image = encodedImage.toString()
+      val description = _binding.itDescription.text.toString()
       val documentType = _binding.dropdownMenuDocument.text.toString()
       val documentId = _binding.itDocumentId.text.toString()
       val name = _binding.itName.text.toString()
       val lastname = _binding.itLastname.text.toString()
       val city = _binding.dropdownMenuCities.text.toString()
 
-      viewModel.submitData(image, documentType, documentId, name, lastname, email, city, activity as AppCompatActivity)
+      viewModel.submitData(image, description, documentType, documentId, name, lastname, email, city, activity as AppCompatActivity)
 
       _binding.ivAddImage.setImageDrawable(resources.getDrawable(R.drawable.add_photo))
       _binding.dropdownMenuDocument.setText("")

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.view.SendDocumentsFragment">
 
     <include
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="25sp"
         android:text="@string/send_docs_text_ES"
-        android:textColor="@color/black"
+        android:textColor="@color/header_text_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +39,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:scaleType="fitXY"
-        android:src="@drawable/add_photo"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -56,21 +57,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/buttons_container"
-        app:layout_constraintTop_toBottomOf="@+id/iv_add_image">
+        app:layout_constraintTop_toBottomOf="@+id/iv_add_image"
+        >
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
+            android:hint="@string/description_ES"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/it_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/it_document_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
             android:hint="@string/document_type_ES"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:boxStrokeWidth="0dp"
             >
-            
+
             <AutoCompleteTextView
                 android:id="@+id/dropdown_menu_document"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,55 +97,67 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/document_id"
-            app:startIconDrawable="@drawable/ic_badge">
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
+            app:startIconDrawable="@drawable/ic_badge"
+            app:startIconTint="@color/input_text_color"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/it_document_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"/>
+                android:background="@color/background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
             android:hint="@string/names_ES">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/it_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"/>
+                android:background="@color/background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
             android:hint="@string/last_names_ES">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/it_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"/>
+                android:background="@color/background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
             android:hint="@string/email_ES">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/it_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"/>
+                android:background="@color/background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/it_cities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintTextColor="@color/input_text_color"
+            android:textColorHint="@color/input_text_color"
             android:hint="@string/city_ES"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:boxStrokeWidth="0dp"
@@ -157,7 +188,7 @@
             android:id="@+id/btn_add_document"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_pink"
+            android:backgroundTint="@color/primary_card_color"
             android:paddingTop="10dp"
             android:paddingEnd="30dp"
             android:paddingBottom="10dp"
@@ -166,13 +197,15 @@
             android:textSize="18sp"
             app:cornerRadius="10dp"
             app:icon="@drawable/ic_backup"
+            app:iconTint="@color/white"
+            android:textColor="@color/white"
             tools:ignore="RtlSymmetry" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_pink"
+            android:backgroundTint="@color/primary_card_color"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="@string/send_ES"
@@ -180,6 +213,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:cornerRadius="10dp"
+            android:textColor="@color/white"
             app:layout_constraintVertical_bias="0.729" />
 
     </LinearLayout>

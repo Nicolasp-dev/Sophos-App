@@ -21,4 +21,20 @@ class Prefs(val context: Context) {
     return storage.getString(Constants.SHARED_USER_EMAIL, "")!!
   }
 
+  fun storeTheme(theme: String){
+    storage.edit().putString(Constants.MAIN_THEME, theme).apply()
+  }
+
+  fun getStoreTheme(): String{
+    return storage.getString(Constants.MAIN_THEME, Constants.LIGHT_THEME)!!
+  }
+
+  fun themeTitle(title: String){
+    storage.edit().putString(Constants.MAIN_THEME, title).apply()
+  }
+
+  fun getThemeTitle(): String{
+    return storage.getString(Constants.MAIN_THEME, Constants.LIGHT_THEME)!!
+  }
+
 }

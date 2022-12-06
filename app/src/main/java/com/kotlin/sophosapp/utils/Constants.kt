@@ -11,6 +11,10 @@ object Constants {
   const val SHARED_USER_NAME: String = "UserName"
   const val SHARED_USER_EMAIL: String = "userEmail"
 
-  const val CAMERA_REQUEST_CODE = 1
-  const val GALLERY_REQUEST_CODE = 2
+  const val CAMERA_REQUEST_CODE: Int = 1
+  const val GALLERY_REQUEST_CODE: Int = 2
+
+  const val MAIN_THEME: String = "MainTheme"
+  const val LIGHT_THEME: String = "Modo dia"
+  const val DARK_THEME: String = "Modo nocturno"
  }

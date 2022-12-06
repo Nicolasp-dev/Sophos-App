@@ -10,6 +10,7 @@ import com.kotlin.sophosapp.utils.MyToolbar
 import com.kotlin.sophosapp.utils.Routing
 import com.kotlin.sophosapp.utils.UserApp.Companion.prefs
 
+
 class MenuFragment : Fragment() {
 
   private lateinit var _binding: FragmentMenuBinding

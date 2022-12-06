@@ -102,7 +102,7 @@ class SendDocumentsViewModel: ViewModel() {
   private fun showRotationalDialogPermission(context: AppCompatActivity){
     AlertDialog.Builder(context)
       .setMessage( "It looks like you have turned off permissions"
-              + "requires for this feature. It can enable under App settings")
+              + " requires for this feature. It can enable under App settings")
       .setPositiveButton("Go to Settings"){ _, _ ->
         try{
           val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -124,7 +124,7 @@ class SendDocumentsViewModel: ViewModel() {
       override fun onResponse(call: Call<RS_Cities>, response: Response<RS_Cities>) {
         if(response.isSuccessful){
           val cities =  response.body()!!.Items
-          cities.forEach { city -> citiesList.add(city.name) }
+          cities.forEach { city -> citiesList.add(city.cityName) }
           mainCities.postValue(citiesList.toList())
         }else {
           NonSuccessResponse().message(response.code())
@@ -145,10 +145,10 @@ class SendDocumentsViewModel: ViewModel() {
     return Base64.encodeToString(byteArray, Base64.DEFAULT)
   }
 
-  fun submitData(image: String, docType: String, docId: String, name: String,
+  fun submitData(image: String, description: String, docType: String, docId: String, name: String,
                  lastname: String, email: String, city: String, context: AppCompatActivity ){
 
-    val data = RS_Docs_Submmit(docType,docId,name,lastname,city,email, ".jpg",image)
+    val data = RS_Docs_Submmit(docType,docId,name,lastname,city,email, description,image)
 
     DocumentsService().submitDocuments(data)
       .enqueue(object: Callback<RS_Docs_Submmit>{

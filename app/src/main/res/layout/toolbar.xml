@@ -9,8 +9,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/background"
         app:navigationIcon="@drawable/ic_backspace"
+        app:navigationIconTint="@color/main_text_color"
         style="@style/ToolbarTheme"
         />
 

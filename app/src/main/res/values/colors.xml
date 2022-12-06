@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="background">#FFFFFFFF</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_purple">#7800FD</color>
-    <color name="dark_purple">#3A275B</color>
-    <color name="main_pink">#FE1191</color>
-    <color name="main_fade_pink">#B3FE1191</color>
-    <color name="main_fade_blue">#B34500FF</color>
-    <color name="main_green">#05667C</color>
-    <color name="main_fade_green">#B305667C</color>
+
+    <color name="primary_card_color">#FE1191</color>
+    <color name="primary_card_text">#FE1191</color>
+    <color name="primary_card_color_fade">#FFFFFFFF</color>
+    <color name="primary_card_btn_color">#FFF</color>
+    <color name="primary_card_bg">#FFF</color>
+
+    <color name="secondary_card_color">#4500FF</color>
+    <color name="secondary_card_text">#4500FF</color>
+    <color name="secondary_card_bg">#FFF</color>
+    <color name="secondary_card_color_fade">#FFFFFFFF</color>
+    <color name="secondary_card_btn_color">#FFF</color>
+
+    <color name="tertiary_card_color">#05667C</color>
+    <color name="tertiary_card_text">#05667C</color>
+    <color name="tertiary_card_color_fade">#FFFFFFFF</color>
+    <color name="tertiary_card_btn_color">#FFFF</color>
+    <color name="tertiary_card_bg">#FFF</color>
+
+    <color name="input_text_color">#666666</color>
+
+    <color name="header_text_color">#000</color>
+
+
+
+
+
+
     <color name="loading_grey">#B3AAAAAA</color>
+    <color name="main_text_color">#7800FD</color>
+    <color name="primary_text_color">#7800FD</color>
+
+    <color name="outline_main_color">#7800FD</color>
+    <color name="login_text_color">#FFFF</color>
+
 
 </resources>

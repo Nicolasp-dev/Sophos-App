@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,6 +19,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.kotlin.sophosapp.data.network.service.OfficeService
 import com.kotlin.sophosapp.data.model.rs_offices.RS_Cities
+import com.kotlin.sophosapp.utils.NonSuccessResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,20 +34,10 @@ class OfficeViewModel : ViewModel() {
         if(response.isSuccessful){
           val locations = response.body()
           for (location in locations!!.Items){
-            createMarkers(map,location.Latitud.toDouble(), location.Longitud.toDouble(), location.Nombre)
+            createMarkers(map,location.latitude.toDouble(), location.longitude.toDouble(), location.placeName)
           }
         }else{
-          when (response.code()) {
-            400 -> {
-              Log.e("Error 400", "Bad Connection")
-            }
-            404 -> {
-              Log.e("Error 404", "Not found")
-            }
-            else -> {
-              Log.e("Error", "Generic Error")
-            }
-          }
+          NonSuccessResponse().message(response.code())
         }
       }
 

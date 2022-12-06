@@ -26,7 +26,7 @@ class DetailDocumentViewModel : ViewModel() {
           isLoading.postValue(false)
           val responseBody = response.body()
           responseBody!!.Items.forEach { item ->
-            val image = decodeRespImage(item.Adjunto)
+            val image = decodeRespImage(item.file)
             decodedImage.postValue(image)
           }
 

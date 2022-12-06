@@ -25,13 +25,13 @@ class DocumentsAdapter(private var documentsList: RS_Docs_Get)
 
   override fun onBindViewHolder(holder: DocumentsViewHolder, position: Int) {
     val document = documentsList.Items[position]
-    holder.binding.tvName.text = document.Nombre
-    holder.binding.tvDate.text = document.Fecha
-    holder.binding.tvDescription.text = document.TipoAdjunto
+
+    holder.binding.tvName.text = document.name
+    holder.binding.tvDate.text = document.date.take(10)
+    holder.binding.tvDescription.text = document.fileType.take(10)
 
     holder.itemView.setOnClickListener {
       onItemClick?.invoke(document)
-      document.IdRegistro
     }
   }
 
