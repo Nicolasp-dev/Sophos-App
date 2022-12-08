@@ -3,12 +3,16 @@ package com.kotlin.sophosapp.ui.viewModel
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -25,6 +29,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class OfficeViewModel : ViewModel() {
+
+  private lateinit var fusedLocationClient: FusedLocationProviderClient
+  private lateinit var lastLocation: Location
 
   fun getOfficesLocations(map: GoogleMap) {
 
@@ -47,18 +54,12 @@ class OfficeViewModel : ViewModel() {
 
     })
 
-    //val coordinates = LatLng(latitude, longitude)
-    //map.addMarker(MarkerOptions().position(coordinates).title(title))
-
     /*
-
-
     map.animateCamera(
       CameraUpdateFactory.newLatLngZoom(coordinates, 5f),
       5000,
        null
     )
-
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 10F))
      */
   }
@@ -81,6 +82,8 @@ class OfficeViewModel : ViewModel() {
           if(report.areAllPermissionsGranted()){
             map.isMyLocationEnabled = true
             locationEnable = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+            currentLocation(map, fusedLocationClient)
           }
         }
       }
@@ -94,6 +97,16 @@ class OfficeViewModel : ViewModel() {
 
     }).onSameThread().check()
     return locationEnable
+  }
+
+  @SuppressLint("MissingPermission")
+  private fun currentLocation(map: GoogleMap, fusedLocation: FusedLocationProviderClient){
+    map.uiSettings.isZoomControlsEnabled = true
+    fusedLocation.lastLocation.addOnSuccessListener{
+      location -> lastLocation = location
+      val currentLatLng = LatLng(location.latitude, location.longitude)
+      map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,12f), 5000, null)
+    }
   }
 
   private fun showRotationalDialogPermission(context: AppCompatActivity){
@@ -115,5 +128,8 @@ class OfficeViewModel : ViewModel() {
         dialog.dismiss()
       }.show()
   }
+
+
+
 
 }

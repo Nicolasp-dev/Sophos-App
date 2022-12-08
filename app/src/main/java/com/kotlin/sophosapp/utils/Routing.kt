@@ -78,7 +78,6 @@ class Routing {
 
       AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
       Toast.makeText(context, "TOGGLE TO: LIGHT MODE", Toast.LENGTH_SHORT).show()
-
       prefs.storeTheme(Constants.LIGHT_THEME)
     }
   }

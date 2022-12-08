@@ -31,6 +31,7 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
     val mapFragment = childFragmentManager.findFragmentById(R.id.google_map) as SupportMapFragment
     mapFragment.getMapAsync(this)
 
+
     return binding.root
   }
 
@@ -62,14 +63,8 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
     map = googleMap
     viewModel.isLocationPermissionGranted(activity as AppCompatActivity, map)
     viewModel.getOfficesLocations(map)
+
   }
-
-
-
-
-
-
-
 
 }
 

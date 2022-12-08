@@ -1,8 +1,14 @@
 package com.kotlin.sophosapp.ui.view
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentMenuBinding
@@ -58,8 +64,15 @@ class MenuFragment : Fragment() {
   // Inflate the menu.
   @Deprecated("Deprecated in Java")
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
+
+
+    val item: MenuItem = menu.findItem(R.id.op_send_docs).setActionView(R.layout.send_doc_item)
+    //Log.i("MENU ITEM", item.toString())
+
+    //menu.findItem(R.id.op_send_docs).actionView?.findViewById<AppCompatTextView>(R.id.menu_send)
   }
 
   // Handle click events of the menu.

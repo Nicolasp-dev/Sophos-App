@@ -7,15 +7,17 @@
     <item
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_purple"
-        android:iconTint="@color/main_text_color"
         android:title=""
+        android:id="@+id/main_menu"
         >
         <menu>
             <item
                 android:id="@+id/op_send_docs"
                 android:title="@string/send_documents_ES"
-                app:showAsAction="never"
+                app:showAsAction="collapseActionView"
+                android:actionLayout="@layout/send_doc_item"
                 />
+
             <item
                 android:id="@+id/op_see_docs"
                 android:title="@string/see_documents_ES"
@@ -43,4 +45,7 @@
                 />
         </menu>
     </item>
+
+
+
 </menu>

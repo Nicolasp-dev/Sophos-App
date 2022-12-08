@@ -27,11 +27,6 @@ class DocumentsFragment : Fragment() {
   private lateinit var documentAdapter: DocumentsAdapter
   private lateinit var communicator: Communicator
 
-
-
-  // TODO -> SetDisplayOptions("ActionBar".displayShowCustom)
-  // SetCustomView(R.layout.xmlFile)
-
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?

@@ -2,11 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.SophosApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:itemBackground" >@font/montserrat</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/main_text_color</item>
         <item name="titleTextColor">@color/main_text_color</item>
+        <item name="titleTextStyle">@font/montserrat_bold</item>
     </style>
 
     <style name="loginInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -27,6 +29,10 @@
         <item name="backgroundTint">@color/background</item>
         <item name="icon">@drawable/ic_fingerprint</item>
         <item name="iconTint">@color/main_text_color</item>
+    </style>
+
+    <style name="itemMenu" parent="Widget.AppCompat.ListView.Menu">
+        <item name="strokeColor">@color/main_text_color</item>
     </style>
 
 </resources>
