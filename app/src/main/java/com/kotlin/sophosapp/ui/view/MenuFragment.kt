@@ -64,12 +64,12 @@ class MenuFragment : Fragment() {
   // Inflate the menu.
   @Deprecated("Deprecated in Java")
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
 
+    val title = prefs.getThemeTitle()
+    menu.findItem(R.id.op_theme).title = title
 
-    val item: MenuItem = menu.findItem(R.id.op_send_docs).setActionView(R.layout.send_doc_item)
     //Log.i("MENU ITEM", item.toString())
 
     //menu.findItem(R.id.op_send_docs).actionView?.findViewById<AppCompatTextView>(R.id.menu_send)

@@ -9,12 +9,12 @@ class Prefs(val context: Context) {
     storage.edit().putString(Constants.SHARED_USER_NAME, userName).apply()
   }
 
- fun storeUserEmail(userEmail: String){
-    storage.edit().putString(Constants.SHARED_USER_EMAIL, userEmail).apply()
-  }
-
   fun getUsername(): String{
     return storage.getString(Constants.SHARED_USER_NAME, "")!!
+  }
+
+ fun storeUserEmail(userEmail: String){
+    storage.edit().putString(Constants.SHARED_USER_EMAIL, userEmail).apply()
   }
 
   fun getUserEmail(): String{
@@ -29,12 +29,12 @@ class Prefs(val context: Context) {
     return storage.getString(Constants.MAIN_THEME, Constants.LIGHT_THEME)!!
   }
 
-  fun themeTitle(title: String){
-    storage.edit().putString(Constants.MAIN_THEME, title).apply()
+  fun storeThemeTitle(title: String){
+    storage.edit().putString(Constants.MAIN_THEME_TITLE, title).apply()
   }
 
   fun getThemeTitle(): String{
-    return storage.getString(Constants.MAIN_THEME, Constants.LIGHT_THEME)!!
+    return storage.getString(Constants.MAIN_THEME_TITLE, "")!!
   }
 
 }

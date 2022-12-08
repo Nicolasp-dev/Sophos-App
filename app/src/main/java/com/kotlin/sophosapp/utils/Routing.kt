@@ -63,22 +63,23 @@ class Routing {
     val theme = prefs.getStoreTheme()
 
     if (theme == Constants.LIGHT_THEME) {
-
-      prefs.themeTitle(Constants.LIGHT_THEME)
-
-
       Toast.makeText(context, "TOGGLE TO: DARK MODE", Toast.LENGTH_SHORT).show()
-      AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
+      prefs.storeThemeTitle(Constants.LIGHT_THEME)
       prefs.storeTheme(Constants.DARK_THEME)
 
-    } else {
-      prefs.themeTitle(Constants.DARK_THEME)
+      AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
+
+    } else {
+      Toast.makeText(context, "TOGGLE TO: LIGHT MODE", Toast.LENGTH_SHORT).show()
+
+      prefs.storeThemeTitle(Constants.DARK_THEME)
+      prefs.storeTheme(Constants.LIGHT_THEME)
 
       AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-      Toast.makeText(context, "TOGGLE TO: LIGHT MODE", Toast.LENGTH_SHORT).show()
-      prefs.storeTheme(Constants.LIGHT_THEME)
+
+
     }
   }
 }

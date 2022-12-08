@@ -13,6 +13,7 @@ import com.kotlin.sophosapp.utils.Constants
 import com.kotlin.sophosapp.utils.MyToolbar
 import com.kotlin.sophosapp.utils.Routing
 import com.kotlin.sophosapp.ui.viewModel.DetailDocumentViewModel
+import com.kotlin.sophosapp.utils.UserApp
 
 class DetailDocumentFragment : Fragment() {
 
@@ -58,6 +59,9 @@ class DetailDocumentFragment : Fragment() {
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
+
+    val title = UserApp.prefs.getThemeTitle()
+    menu.findItem(R.id.op_theme).title = title
   }
 
   // Handle click events of the menu.

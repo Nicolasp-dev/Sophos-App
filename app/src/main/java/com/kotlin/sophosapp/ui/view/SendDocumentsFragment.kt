@@ -122,6 +122,9 @@ class SendDocumentsFragment : Fragment() {
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
+
+    val title = prefs.getThemeTitle()
+    menu.findItem(R.id.op_theme).title = title
   }
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")

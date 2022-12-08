@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentDocumentsBinding
-import com.kotlin.sophosapp.utils.Communicator
-import com.kotlin.sophosapp.utils.DocumentsAdapter
-import com.kotlin.sophosapp.utils.MyToolbar
-import com.kotlin.sophosapp.utils.Routing
 import com.kotlin.sophosapp.ui.viewModel.DocumentsViewModel
+import com.kotlin.sophosapp.utils.*
 
 class DocumentsFragment : Fragment() {
 
@@ -76,6 +73,9 @@ class DocumentsFragment : Fragment() {
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
+
+    val title = UserApp.prefs.getThemeTitle()
+    menu.findItem(R.id.op_theme).title = title
   }
 
   // Handle click events of the menu.

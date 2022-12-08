@@ -13,6 +13,7 @@ import com.kotlin.sophosapp.databinding.FragmentOfficeBinding
 import com.kotlin.sophosapp.utils.MyToolbar
 import com.kotlin.sophosapp.utils.Routing
 import com.kotlin.sophosapp.ui.viewModel.OfficeViewModel
+import com.kotlin.sophosapp.utils.UserApp
 
 class OfficeFragment : Fragment(), OnMapReadyCallback {
 
@@ -50,6 +51,9 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
+
+    val title = UserApp.prefs.getThemeTitle()
+    menu.findItem(R.id.op_theme).title = title
   }
 
   // Handle click events of the menu.
