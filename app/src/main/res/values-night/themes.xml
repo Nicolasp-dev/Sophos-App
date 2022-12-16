@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.SophosApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:itemBackground" >@font/montserrat</item>
+        <item name="android:itemBackground" >@color/background</item>
+        <item name="android:itemTextAppearance">@color/white</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">

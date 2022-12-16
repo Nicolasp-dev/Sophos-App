@@ -30,6 +30,7 @@ class SendDocumentsFragment : Fragment() {
   private lateinit var _binding: FragmentSendDocumentsBinding
   private val binding get() = _binding
   private var encodedImage: String? = null
+  private lateinit var title: String
 
   // ------------------------- [ON CREATE VIEW] ------------------------- //
   @SuppressLint("UseCompatLoadingForDrawables")
@@ -92,6 +93,7 @@ class SendDocumentsFragment : Fragment() {
 
       viewModel.submitData(image, description, documentType, documentId, name, lastname, email, city, activity as AppCompatActivity)
 
+      _binding.itDescription.setText("")
       _binding.ivAddImage.setImageDrawable(resources.getDrawable(R.drawable.add_photo))
       _binding.dropdownMenuDocument.setText("")
       _binding.itDocumentId.setText("")
@@ -112,8 +114,10 @@ class SendDocumentsFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     val toolbar = binding.toolbarContainer.toolbar
+    val language = prefs.getLanguage()
+    title = if (language == "en") "Go back" else "Regresar"
     MyToolbar()
-      .show(activity as AppCompatActivity,toolbar,"Regresar", true)
+      .show(activity as AppCompatActivity,toolbar,title, true)
 
   }
 
@@ -125,6 +129,9 @@ class SendDocumentsFragment : Fragment() {
 
     val title = prefs.getThemeTitle()
     menu.findItem(R.id.op_theme).title = title
+
+    val language = prefs.getLanguageTitle()
+    menu.findItem(R.id.op_language).title = language
   }
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")

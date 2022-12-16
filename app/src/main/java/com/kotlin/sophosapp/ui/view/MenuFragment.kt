@@ -1,14 +1,8 @@
 package com.kotlin.sophosapp.ui.view
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentMenuBinding
@@ -67,10 +61,11 @@ class MenuFragment : Fragment() {
     inflater.inflate(R.menu.navigation, menu)
     super.onCreateOptionsMenu(menu, inflater)
 
-    val title = prefs.getThemeTitle()
-    menu.findItem(R.id.op_theme).title = title
+    val theme = prefs.getThemeTitle()
+    menu.findItem(R.id.op_theme).title = theme
 
-    //Log.i("MENU ITEM", item.toString())
+    val language = prefs.getLanguageTitle()
+    menu.findItem(R.id.op_language).title = language
 
     //menu.findItem(R.id.op_send_docs).actionView?.findViewById<AppCompatTextView>(R.id.menu_send)
   }

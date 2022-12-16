@@ -41,7 +41,12 @@ class OfficeViewModel : ViewModel() {
         if(response.isSuccessful){
           val locations = response.body()
           for (location in locations!!.Items){
-            createMarkers(map,location.latitude.toDouble(), location.longitude.toDouble(), location.placeName)
+            if(location.cityName == "Chile"){
+              createMarkers(map, "-${location.latitude}".toDouble(), location.longitude.toDouble(), location.placeName)
+            }else{
+              createMarkers(map,location.latitude.toDouble(), location.longitude.toDouble(), location.placeName)
+            }
+
           }
         }else{
           NonSuccessResponse().message(response.code())
@@ -128,8 +133,4 @@ class OfficeViewModel : ViewModel() {
         dialog.dismiss()
       }.show()
   }
-
-
-
-
 }

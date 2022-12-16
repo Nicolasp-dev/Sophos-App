@@ -3,10 +3,13 @@ package com.kotlin.sophosapp.ui.viewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kotlin.sophosapp.data.model.rs_documents.Documents
 import com.kotlin.sophosapp.data.network.service.DocumentsService
 import com.kotlin.sophosapp.utils.UserApp.Companion.prefs
 import com.kotlin.sophosapp.data.model.rs_documents.RS_Docs_Get
+import com.kotlin.sophosapp.utils.Communicator
 import com.kotlin.sophosapp.utils.NonSuccessResponse
+import org.w3c.dom.Document
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,5 +42,9 @@ class DocumentsViewModel : ViewModel() {
       }
 
     })
+  }
+
+  fun onDocumentSelected(document: Documents, communicator: Communicator){
+    communicator.passData(document.idRegister)
   }
 }

@@ -157,6 +157,7 @@ class SendDocumentsViewModel: ViewModel() {
         if(response.isSuccessful){
            Toast.makeText(context, "DOCUMENT SUBMITTED", Toast.LENGTH_SHORT).show()
         }else {
+          Toast.makeText(context, "THE IMAGE IS TO HEAVY TO UPLOAD", Toast.LENGTH_SHORT).show()
           NonSuccessResponse().message(response.code())
         }
       }

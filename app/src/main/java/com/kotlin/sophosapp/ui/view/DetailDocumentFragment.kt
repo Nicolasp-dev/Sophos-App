@@ -21,6 +21,7 @@ class DetailDocumentFragment : Fragment() {
   private lateinit var _binding: FragmentDetailDocumentBinding
   private val binding get() = _binding
   private lateinit var idRegister: String
+  private lateinit var title: String
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +51,10 @@ class DetailDocumentFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     val toolbar = _binding.toolbarContainer.toolbar
+    val language = UserApp.prefs.getLanguage()
+    title = if (language == "en") "Go back" else "Regresar"
     MyToolbar()
-      .show(activity as AppCompatActivity, toolbar, "Regresar", true)
+      .show(activity as AppCompatActivity, toolbar, title, true)
   }
 
   // ------------------------- [OPTION MENU SETTINGS] ------------------------- //
@@ -62,6 +65,9 @@ class DetailDocumentFragment : Fragment() {
 
     val title = UserApp.prefs.getThemeTitle()
     menu.findItem(R.id.op_theme).title = title
+
+    val language = UserApp.prefs.getLanguageTitle()
+    menu.findItem(R.id.op_language).title = language
   }
 
   // Handle click events of the menu.

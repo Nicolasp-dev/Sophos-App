@@ -21,6 +21,7 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
   private val binding get() = _binding
   private lateinit var viewModel: OfficeViewModel
   private lateinit var map: GoogleMap
+  private lateinit var title: String
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +45,9 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     val toolbar = binding.toolbarContainer.toolbar
-    MyToolbar().show(activity as AppCompatActivity, toolbar, "Regresar", true)
+    val language = UserApp.prefs.getLanguage()
+    title = if (language == "en") "Go back" else "Regresar"
+    MyToolbar().show(activity as AppCompatActivity, toolbar, title, true)
   }
 
   @Deprecated("Deprecated in Java")
@@ -54,6 +57,9 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
 
     val title = UserApp.prefs.getThemeTitle()
     menu.findItem(R.id.op_theme).title = title
+
+    val language = UserApp.prefs.getLanguageTitle()
+    menu.findItem(R.id.op_language).title = language
   }
 
   // Handle click events of the menu.

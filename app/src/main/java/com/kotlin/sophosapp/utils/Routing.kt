@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.kotlin.sophosapp.R
-import com.kotlin.sophosapp.data.model.theme_state.ThemeState
 import com.kotlin.sophosapp.ui.view.DocumentsFragment
 import com.kotlin.sophosapp.ui.view.MenuFragment
 import com.kotlin.sophosapp.ui.view.OfficeFragment
@@ -44,7 +43,15 @@ class Routing {
         true
       }
       R.id.op_theme  -> {
-        toggleTheme(context, item)
+        toggleTheme(context)
+        true
+      }
+      R.id.op_language  -> {
+        toggleLanguage(context)
+        true
+      }
+      R.id.op_logout  -> {
+        context.recreate()
         true
       }
       else -> {false}
@@ -59,13 +66,19 @@ class Routing {
     }
   }
 
-  private fun toggleTheme(context: AppCompatActivity, item: MenuItem) {
+  private fun toggleTheme(context: AppCompatActivity) {
     val theme = prefs.getStoreTheme()
+    val language = prefs.getLanguage()
 
     if (theme == Constants.LIGHT_THEME) {
       Toast.makeText(context, "TOGGLE TO: DARK MODE", Toast.LENGTH_SHORT).show()
 
-      prefs.storeThemeTitle(Constants.LIGHT_THEME)
+      if(language == "en"){
+        prefs.storeThemeTitle("Light Mode")
+      }else{
+        prefs.storeThemeTitle(Constants.LIGHT_THEME)
+      }
+
       prefs.storeTheme(Constants.DARK_THEME)
 
       AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
@@ -74,13 +87,48 @@ class Routing {
     } else {
       Toast.makeText(context, "TOGGLE TO: LIGHT MODE", Toast.LENGTH_SHORT).show()
 
-      prefs.storeThemeTitle(Constants.DARK_THEME)
+      if(language == "en"){
+        prefs.storeThemeTitle("Night Mode")
+      }else{
+        prefs.storeThemeTitle(Constants.DARK_THEME)
+      }
+
       prefs.storeTheme(Constants.LIGHT_THEME)
 
       AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-
-
     }
   }
+  private fun toggleLanguage(context: AppCompatActivity){
+    val language = prefs.getLanguage()
+    val theme = prefs.getStoreTheme()
+
+    if(language == "en" && theme == Constants.LIGHT_THEME){
+      prefs.storeLanguage("es")
+      prefs.storeLanguageTitle("Idioma Ingles")
+      prefs.storeThemeTitle("Modo nocturno")
+    }
+
+    if(language == "en" && theme == Constants.DARK_THEME){
+      prefs.storeLanguage("es")
+      prefs.storeLanguageTitle("Idioma Ingles")
+      prefs.storeThemeTitle("Modo dia")
+    }
+
+    if(language == "es" && theme == Constants.LIGHT_THEME){
+      prefs.storeLanguage("en")
+      prefs.storeLanguageTitle("Spanish Language")
+      prefs.storeThemeTitle("Night mode")
+    }
+
+    if(language == "es" && theme == Constants.DARK_THEME){
+      prefs.storeLanguage("en")
+      prefs.storeLanguageTitle("Spanish Language")
+      prefs.storeThemeTitle("Light Mode")
+    }
+
+    context.recreate()
+  }
 }
+
+
 

@@ -5,36 +5,57 @@ import android.content.Context
 class Prefs(val context: Context) {
   val storage = context.getSharedPreferences(Constants.STORAGE, 0)
 
-  fun storeUsername(userName: String){
+  // User Name Prefs.
+  fun storeUsername(userName: String) {
     storage.edit().putString(Constants.SHARED_USER_NAME, userName).apply()
   }
 
-  fun getUsername(): String{
+  fun getUsername(): String {
     return storage.getString(Constants.SHARED_USER_NAME, "")!!
   }
 
- fun storeUserEmail(userEmail: String){
+  // User Email Prefs.
+  fun storeUserEmail(userEmail: String ){
     storage.edit().putString(Constants.SHARED_USER_EMAIL, userEmail).apply()
   }
 
-  fun getUserEmail(): String{
+  fun getUserEmail(): String {
     return storage.getString(Constants.SHARED_USER_EMAIL, "")!!
   }
 
-  fun storeTheme(theme: String){
+  // Theme Prefs.
+  fun storeTheme(theme: String) {
     storage.edit().putString(Constants.MAIN_THEME, theme).apply()
   }
 
-  fun getStoreTheme(): String{
+  fun getStoreTheme(): String {
     return storage.getString(Constants.MAIN_THEME, Constants.LIGHT_THEME)!!
   }
 
-  fun storeThemeTitle(title: String){
+  // Theme Title Prefs.
+  fun storeThemeTitle(title: String) {
     storage.edit().putString(Constants.MAIN_THEME_TITLE, title).apply()
   }
 
-  fun getThemeTitle(): String{
-    return storage.getString(Constants.MAIN_THEME_TITLE, "")!!
+  fun getThemeTitle(): String {
+    return storage.getString(Constants.MAIN_THEME_TITLE, "Modo nocturno")!!
   }
 
+  // Language Prefs.
+  fun storeLanguage(language: String) {
+    storage.edit().putString(Constants.MAIN_LANGUAGE, language).apply()
+  }
+
+  fun getLanguage(): String{
+    return storage.getString(Constants.MAIN_LANGUAGE, "es")!!
+  }
+
+  // Language Title Prefs.
+  fun storeLanguageTitle(title: String) {
+    storage.edit().putString(Constants.MAIN_LANGUAGE_TITLE, title).apply()
+  }
+
+  fun getLanguageTitle(): String {
+    return storage.getString(Constants.MAIN_LANGUAGE_TITLE, "")!!
+  }
 }
