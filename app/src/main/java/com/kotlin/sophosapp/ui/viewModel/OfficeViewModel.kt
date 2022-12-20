@@ -1,14 +1,8 @@
 package com.kotlin.sophosapp.ui.viewModel
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.location.Location
-import android.net.Uri
-import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -23,6 +17,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.kotlin.sophosapp.data.network.service.OfficeService
 import com.kotlin.sophosapp.data.model.rs_offices.RS_Cities
+import com.kotlin.sophosapp.utils.Dialog
 import com.kotlin.sophosapp.utils.NonSuccessResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -97,7 +92,7 @@ class OfficeViewModel : ViewModel() {
         p0: MutableList<PermissionRequest>?,
         p1: PermissionToken?
       ) {
-        showRotationalDialogPermission(context)
+        Dialog.showAlertDialogPermission(context)
       }
 
     }).onSameThread().check()
@@ -112,25 +107,5 @@ class OfficeViewModel : ViewModel() {
       val currentLatLng = LatLng(location.latitude, location.longitude)
       map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,12f), 5000, null)
     }
-  }
-
-  private fun showRotationalDialogPermission(context: AppCompatActivity){
-    AlertDialog.Builder(context)
-      .setMessage( "It looks like you have turned off permissions"
-              + "requires for this feature. It can enable under App settings")
-      .setPositiveButton("Go to Settings"){ _, _ ->
-        try{
-          val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-          val uri = Uri.fromParts("package", context.packageName, null)
-          intent.data = uri
-          ContextCompat.startActivity(context, intent, null)
-        }catch (e: ActivityNotFoundException){
-          e.printStackTrace()
-        }
-      }
-      .setNegativeButton("Cancel"){
-          dialog, _ ->
-        dialog.dismiss()
-      }.show()
   }
 }

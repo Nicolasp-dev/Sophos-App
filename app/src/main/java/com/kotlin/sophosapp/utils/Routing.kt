@@ -98,6 +98,7 @@ class Routing {
       AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
     }
   }
+
   private fun toggleLanguage(context: AppCompatActivity){
     val language = prefs.getLanguage()
     val theme = prefs.getStoreTheme()

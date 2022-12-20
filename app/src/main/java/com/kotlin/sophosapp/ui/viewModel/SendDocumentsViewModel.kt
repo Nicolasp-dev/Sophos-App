@@ -1,16 +1,13 @@
 package com.kotlin.sophosapp.ui.viewModel
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.Settings
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.karumi.dexter.Dexter
@@ -26,6 +23,9 @@ import com.kotlin.sophosapp.data.model.auth.GalleryAuth
 import com.kotlin.sophosapp.data.model.rs_offices.RS_Cities
 import com.kotlin.sophosapp.data.model.rs_documents.RS_Docs_Submmit
 import com.kotlin.sophosapp.data.network.service.OfficeService
+import com.kotlin.sophosapp.utils.Constants
+import com.kotlin.sophosapp.utils.Dialog
+import com.kotlin.sophosapp.utils.ImageTools
 import com.kotlin.sophosapp.utils.NonSuccessResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,6 +37,8 @@ class SendDocumentsViewModel: ViewModel() {
 
   val documentsType = listOf("Cedula de Ciudadania","Cedula de Extranjería", "Pasaporte")
 
+  //private lateinit var encodedImage: String
+
   // LIVE DATA //
   val cameraAuth = MutableLiveData<CameraAuth?>()
   val galleryAuth = MutableLiveData<GalleryAuth?>()
@@ -46,15 +48,19 @@ class SendDocumentsViewModel: ViewModel() {
   //  PERMISSIONS //
   //  1.1 PERMISSIONS: CAMERA //
   fun cameraCheckPermission(context: AppCompatActivity){
+
     Dexter.withContext(context)
       .withPermissions(
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.CAMERA
       )
       .withListener( object: MultiplePermissionsListener{
+
         override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
           report?.let{
-
+            if(report.isAnyPermissionPermanentlyDenied){
+              Toast.makeText(context, "No permissions Allowed", Toast.LENGTH_SHORT).show()
+            }
             if(report.areAllPermissionsGranted()){
               cameraAuth.postValue(CameraAuth(isAuth = true))
             }
@@ -65,7 +71,7 @@ class SendDocumentsViewModel: ViewModel() {
           p0: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
           p1: PermissionToken?
         ) {
-          showRotationalDialogPermission(context)
+          Dialog.showAlertDialogPermission(context)
         }
       }).onSameThread().check()
   }
@@ -86,37 +92,16 @@ class SendDocumentsViewModel: ViewModel() {
             Toast.LENGTH_SHORT
           )
             .show()
-          showRotationalDialogPermission(context)
+          Dialog.showAlertDialogPermission(context)
         }
 
         override fun onPermissionRationaleShouldBeShown(
           p0: com.karumi.dexter.listener.PermissionRequest?,
           p1: PermissionToken?
         ) {
-          showRotationalDialogPermission(context)
+          Dialog.showAlertDialogPermission(context)
         }
       }).onSameThread().check()
-  }
-
-  //  RATIONAL DIALOG  //
-  private fun showRotationalDialogPermission(context: AppCompatActivity){
-    AlertDialog.Builder(context)
-      .setMessage( "It looks like you have turned off permissions"
-              + " requires for this feature. It can enable under App settings")
-      .setPositiveButton("Go to Settings"){ _, _ ->
-        try{
-          val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-          val uri = Uri.fromParts("package", context.packageName, null)
-          intent.data = uri
-          startActivity(context, intent, null)
-        }catch (e: ActivityNotFoundException){
-          e.printStackTrace()
-        }
-      }
-      .setNegativeButton("Cancel"){
-        dialog, _ ->
-        dialog.dismiss()
-      }.show()
   }
 
   fun getOffice(){
@@ -138,35 +123,50 @@ class SendDocumentsViewModel: ViewModel() {
     })
   }
 
-  fun encodeImage(bm: Bitmap): String {
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-    val byteArray = byteArrayOutputStream.toByteArray()
-    return Base64.encodeToString(byteArray, Base64.DEFAULT)
+  fun imageAction(requestCode: Int, data: Intent?, mActivity: FragmentActivity?): Array<ImageData> {
+
+     when(requestCode){
+      Constants.CAMERA_REQUEST_CODE -> {
+        val bitmap = data?.extras?.get("data") as Bitmap
+        val encodedImage = ImageTools.encodeImage(bitmap)
+
+        return arrayOf(ImageData(bitmap, encodedImage))
+      }
+
+        Constants.GALLERY_REQUEST_CODE -> {
+          val image = data?.data
+          val bitmap = MediaStore.Images.Media.getBitmap(mActivity?.contentResolver, image)
+          val encodedImage = ImageTools.encodeImage(bitmap)
+
+          return arrayOf(ImageData(bitmap, encodedImage))
+        }
+        else ->  return arrayOf(ImageData( null, null))
+      }
+
   }
 
   fun submitData(image: String, description: String, docType: String, docId: String, name: String,
-                 lastname: String, email: String, city: String, context: AppCompatActivity ){
+                 lastname: String, email: String, city: String, context: AppCompatActivity ) {
 
-    val data = RS_Docs_Submmit(docType,docId,name,lastname,city,email, description,image)
+    val data = RS_Docs_Submmit(docType, docId, name, lastname, city, email, description, image)
 
     DocumentsService().submitDocuments(data)
-      .enqueue(object: Callback<RS_Docs_Submmit>{
+      .enqueue(object : Callback<RS_Docs_Submmit> {
 
-      override fun onResponse(call: Call<RS_Docs_Submmit>, response: Response<RS_Docs_Submmit>) {
-        if(response.isSuccessful){
-           Toast.makeText(context, "DOCUMENT SUBMITTED", Toast.LENGTH_SHORT).show()
-        }else {
-          Toast.makeText(context, "THE IMAGE IS TO HEAVY TO UPLOAD", Toast.LENGTH_SHORT).show()
-          NonSuccessResponse().message(response.code())
+        override fun onResponse(call: Call<RS_Docs_Submmit>, response: Response<RS_Docs_Submmit>) {
+          if (response.isSuccessful) {
+            Toast.makeText(context, "DOCUMENT SUBMITTED", Toast.LENGTH_SHORT).show()
+          } else {
+            Toast.makeText(context, "THE IMAGE IS TO HEAVY TO UPLOAD", Toast.LENGTH_SHORT).show()
+            NonSuccessResponse().message(response.code())
+          }
         }
-      }
 
-      override fun onFailure(call: Call<RS_Docs_Submmit>, t: Throwable) {
-        Log.e("Error", t.message.toString())
-        call.cancel()
-      }
-    })
-  }
-
+        override fun onFailure(call: Call<RS_Docs_Submmit>, t: Throwable) {
+          call.cancel()
+        }
+      })
+    }
 }
+
+data class ImageData(val bitmap: Bitmap?, val code64: String?)

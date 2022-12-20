@@ -1,12 +1,11 @@
 package com.kotlin.sophosapp.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.kotlin.sophosapp.R
 import com.kotlin.sophosapp.databinding.FragmentDetailDocumentBinding
 import com.kotlin.sophosapp.utils.Constants
@@ -17,9 +16,10 @@ import com.kotlin.sophosapp.utils.UserApp
 
 class DetailDocumentFragment : Fragment() {
 
-  private lateinit var viewModel: DetailDocumentViewModel
+  private val viewModel: DetailDocumentViewModel by viewModels()
   private lateinit var _binding: FragmentDetailDocumentBinding
   private val binding get() = _binding
+
   private lateinit var idRegister: String
   private lateinit var title: String
 
@@ -28,12 +28,12 @@ class DetailDocumentFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View {
     _binding = FragmentDetailDocumentBinding.inflate(inflater, container, false)
-    viewModel = ViewModelProvider(this)[DetailDocumentViewModel::class.java]
     idRegister = requireArguments().getString(Constants.ID_REGISTER,"")
 
     viewModel.decodedImage.observe(viewLifecycleOwner){
       image -> _binding.detailImage.setImageBitmap(image)
     }
+
     viewModel.isLoading.observe(viewLifecycleOwner){
       currentState -> _binding.progressBar.isVisible = currentState
     }
@@ -50,9 +50,11 @@ class DetailDocumentFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
     val toolbar = _binding.toolbarContainer.toolbar
     val language = UserApp.prefs.getLanguage()
     title = if (language == "en") "Go back" else "Regresar"
+
     MyToolbar()
       .show(activity as AppCompatActivity, toolbar, title, true)
   }

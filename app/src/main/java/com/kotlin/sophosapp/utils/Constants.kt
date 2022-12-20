@@ -16,6 +16,7 @@ object Constants {
 
   const val MAIN_THEME: String = "MainTheme"
   const val MAIN_THEME_TITLE: String = "MainTitle"
+
   const val LIGHT_THEME: String = "Modo dia"
   const val DARK_THEME: String = "Modo nocturno"
 

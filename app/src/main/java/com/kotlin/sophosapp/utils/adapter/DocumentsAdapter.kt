@@ -1,12 +1,9 @@
 package com.kotlin.sophosapp.utils.adapter
 
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.sophosapp.R
-import com.kotlin.sophosapp.databinding.SingleDocumentBinding
 import com.kotlin.sophosapp.data.model.rs_documents.Documents
 import com.kotlin.sophosapp.data.model.rs_documents.RS_Docs_Get
 

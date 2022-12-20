@@ -46,6 +46,7 @@ class DocumentsFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
     val language = prefs.getLanguage()
     title = if (language == "en") "Go back" else "Regresar"
 
@@ -54,8 +55,8 @@ class DocumentsFragment : Fragment() {
       .show(activity as AppCompatActivity, toolbar, title, true)
 
     recyclerView = _binding.docsRecyclerView
-    viewModel.documents.observe(viewLifecycleOwner){
 
+    viewModel.documents.observe(viewLifecycleOwner){
       documents -> run{
       _binding.loadingSchema.isVisible = false
       _binding.docsRecyclerView.isVisible = true
@@ -65,7 +66,6 @@ class DocumentsFragment : Fragment() {
           documentAdapter =  DocumentsAdapter(documents!!){
             document -> viewModel.onDocumentSelected(document, communicator)
           }
-
           recyclerView.adapter = documentAdapter
          }
       }

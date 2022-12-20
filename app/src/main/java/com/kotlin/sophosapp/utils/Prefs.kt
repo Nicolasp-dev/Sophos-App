@@ -56,6 +56,6 @@ class Prefs(val context: Context) {
   }
 
   fun getLanguageTitle(): String {
-    return storage.getString(Constants.MAIN_LANGUAGE_TITLE, "")!!
+    return storage.getString(Constants.MAIN_LANGUAGE_TITLE, "Idioma ingles")!!
   }
 }

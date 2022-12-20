@@ -9,7 +9,6 @@ import com.kotlin.sophosapp.utils.UserApp.Companion.prefs
 import com.kotlin.sophosapp.data.model.rs_documents.RS_Docs_Get
 import com.kotlin.sophosapp.utils.Communicator
 import com.kotlin.sophosapp.utils.NonSuccessResponse
-import org.w3c.dom.Document
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,10 +16,8 @@ import retrofit2.Response
 class DocumentsViewModel : ViewModel() {
 
   val documents = MutableLiveData<RS_Docs_Get?>()
-  val isLoading = MutableLiveData<Boolean>()
 
   fun getDocuments(){
-    isLoading.postValue(true)
     val email = prefs.getUserEmail()
 
     DocumentsService().fetchDocumentsByEmail(email)
@@ -28,9 +25,7 @@ class DocumentsViewModel : ViewModel() {
 
       override fun onResponse(call: Call<RS_Docs_Get>, response: Response<RS_Docs_Get>) {
         if(response.isSuccessful){
-          isLoading.postValue(false)
-          val responseBody = response.body()
-          documents.postValue(responseBody)
+          documents.postValue(response.body())
         }else {
           NonSuccessResponse().message(response.code())
         }

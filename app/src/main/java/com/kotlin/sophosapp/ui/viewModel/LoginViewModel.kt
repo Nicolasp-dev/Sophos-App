@@ -1,11 +1,11 @@
 package com.kotlin.sophosapp.ui.viewModel
 
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kotlin.sophosapp.data.network.service.UserService
@@ -26,8 +26,12 @@ class LoginViewModel: ViewModel() {
   private lateinit var biometricPrompt: BiometricPrompt
 
   // ____ [ MUTABLE LIVE DATA ] ____  //
-  val userData = MutableLiveData<RS_User?>()
-  val userAuth = MutableLiveData<UserAuth?>()
+
+  private val _userData = MutableLiveData<RS_User?>()
+  val userData: LiveData<RS_User?> = _userData
+
+  private val _userAuth = MutableLiveData<UserAuth?>()
+  val userAuth: LiveData<UserAuth?> = _userAuth
 
   // ____________________ [ LOGIN WITH CREDENTIALS ] ____________________ \\
   fun login(email: String, password: String, activity: AppCompatActivity){
@@ -39,16 +43,21 @@ class LoginViewModel: ViewModel() {
         override fun onResponse(call: Call<RS_User>, response: Response<RS_User>) {
           if(response.isSuccessful){
             val responseBody = response.body()
-            userData.postValue(responseBody)
-            prefs.storeUsername(responseBody!!.name)
-            prefs.storeUserEmail(email)
+
+            if(responseBody!!.access){
+              _userData.postValue(responseBody)
+              prefs.storeUsername(responseBody.name)
+              prefs.storeUserEmail(email)
+            }else{
+              Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+            }
+
           }else {
             NonSuccessResponse().message(response.code())
           }
         }
 
         override fun onFailure(call: Call<RS_User>, t: Throwable) {
-          Log.e("Error", t.message.toString())
           call.cancel()
         }
       })
@@ -61,7 +70,6 @@ class LoginViewModel: ViewModel() {
   private fun emailValidation(email: String):Boolean{
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
   }
-  // -------------------------------------------------------------------------//
 
   // ------------------ [ LOGIN WITH FINGERPRINT ] ----------------------- //
   fun fingerPrintAuth(context: FragmentActivity){
@@ -85,7 +93,7 @@ class LoginViewModel: ViewModel() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
           super.onAuthenticationSucceeded(result)
           Toast.makeText(context, "Biometric Authentication Success", Toast.LENGTH_SHORT).show()
-          userAuth.postValue(UserAuth(true))
+          _userAuth.postValue(UserAuth(true))
         }
 
         override fun onAuthenticationFailed() {

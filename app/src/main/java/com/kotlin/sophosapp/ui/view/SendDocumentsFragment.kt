@@ -1,8 +1,10 @@
 package com.kotlin.sophosapp.ui.view
 
+import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,7 +13,6 @@ import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
@@ -154,33 +155,23 @@ class SendDocumentsFragment : Fragment() {
   @Deprecated("Deprecated in Java")
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
+    val mActivity = activity
 
     if(resultCode == Activity.RESULT_OK){
-      when(requestCode){
-        Constants.CAMERA_REQUEST_CODE ->{
-          val bitmap = data?.extras?.get("data") as Bitmap
-          encodedImage = viewModel.encodeImage(bitmap)
+      viewModel.imageAction(requestCode, data, mActivity).let{
+        imageData -> run{
 
-          binding.ivAddImage.load(bitmap){
-            crossfade(true)
-            crossfade(1000)
-          }
-        }
-
-        Constants.GALLERY_REQUEST_CODE -> {
-          val image = data?.data
-          val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, image)
-          encodedImage = viewModel.encodeImage(bitmap)
-          //Log.i("ENCODED IMAGE", encodeImg.toString())
-
-          binding.ivAddImage.load(bitmap){
-            crossfade(true)
-            crossfade(1000)
+          for(item in imageData){
+            encodedImage = item.code64
+            binding.ivAddImage.load(item.bitmap){
+              crossfade(true)
+              crossfade(1000)
+            }
           }
         }
       }
     }else{
-      Toast.makeText(activity, "NO ACTION", Toast.LENGTH_SHORT).show()
+      Toast.makeText(mActivity, "NO ACTION", Toast.LENGTH_SHORT).show()
     }
   }
 
