@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(), Communicator {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    Routing().goTo(this, LoginFragment())
+    Routing.goTo(this, LoginFragment())
   }
 
   override fun attachBaseContext(newBase: Context) {
@@ -35,6 +35,6 @@ class MainActivity : AppCompatActivity(), Communicator {
     bundle.putString(Constants.ID_REGISTER, id)
     val detailFragment = DetailDocumentFragment()
     detailFragment.arguments = bundle
-    Routing().goTo(this, detailFragment)
+    Routing.goTo(this, detailFragment)
   }
 }

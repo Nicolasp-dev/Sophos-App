@@ -25,15 +25,15 @@ class MenuFragment : Fragment() {
 
     // TODO -> This should be at ViewModel ?
     _binding.btnSendDocuments.setOnClickListener{
-      Routing().goTo(activity as AppCompatActivity, SendDocumentsFragment() )
+      Routing.goTo(activity as AppCompatActivity, SendDocumentsFragment() )
     }
 
     _binding.btnSeeDocuments.setOnClickListener {
-      Routing().goTo(activity as AppCompatActivity, DocumentsFragment())
+      Routing.goTo(activity as AppCompatActivity, DocumentsFragment())
     }
 
     _binding.btnOffice.setOnClickListener {
-      Routing().goTo(activity as AppCompatActivity, OfficeFragment())
+      Routing.goTo(activity as AppCompatActivity, OfficeFragment())
     }
 
     return binding.root
@@ -66,13 +66,11 @@ class MenuFragment : Fragment() {
 
     val language = prefs.getLanguageTitle()
     menu.findItem(R.id.op_language).title = language
-
-    //menu.findItem(R.id.op_send_docs).actionView?.findViewById<AppCompatTextView>(R.id.menu_send)
   }
 
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return Routing().navigation(activity as AppCompatActivity, item)
+    return Routing.navigation(activity as AppCompatActivity, item)
   }
 }

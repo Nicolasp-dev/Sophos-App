@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.karumi.dexter.Dexter
@@ -20,6 +21,7 @@ import com.karumi.dexter.listener.single.PermissionListener
 import com.kotlin.sophosapp.data.network.service.DocumentsService
 import com.kotlin.sophosapp.data.model.auth.CameraAuth
 import com.kotlin.sophosapp.data.model.auth.GalleryAuth
+import com.kotlin.sophosapp.data.model.image.ImageData
 import com.kotlin.sophosapp.data.model.rs_offices.RS_Cities
 import com.kotlin.sophosapp.data.model.rs_documents.RS_Docs_Submmit
 import com.kotlin.sophosapp.data.network.service.OfficeService
@@ -40,11 +42,17 @@ class SendDocumentsViewModel: ViewModel() {
   //private lateinit var encodedImage: String
 
   // LIVE DATA //
-  val cameraAuth = MutableLiveData<CameraAuth?>()
-  val galleryAuth = MutableLiveData<GalleryAuth?>()
-  val mainCities = MutableLiveData<List<String>>()
+  private val _cameraAuth = MutableLiveData<CameraAuth?>()
+  val cameraAuth: LiveData<CameraAuth?> = _cameraAuth
+
+  private val _galleryAuth = MutableLiveData<GalleryAuth?>()
+  val galleryAuth: LiveData<GalleryAuth?> = _galleryAuth
+
+  private val _mainCities = MutableLiveData<List<String>>()
+  val mainCities: LiveData<List<String>> = _mainCities
+
   val citiesList = mutableSetOf<String>()
-  
+
   //  PERMISSIONS //
   //  1.1 PERMISSIONS: CAMERA //
   fun cameraCheckPermission(context: AppCompatActivity){
@@ -62,7 +70,7 @@ class SendDocumentsViewModel: ViewModel() {
               Toast.makeText(context, "No permissions Allowed", Toast.LENGTH_SHORT).show()
             }
             if(report.areAllPermissionsGranted()){
-              cameraAuth.postValue(CameraAuth(isAuth = true))
+              _cameraAuth.postValue(CameraAuth(isAuth = true))
             }
           }
         }
@@ -82,7 +90,7 @@ class SendDocumentsViewModel: ViewModel() {
       .withListener(object: PermissionListener{
 
         override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-          galleryAuth.postValue(GalleryAuth(isAuth = true))
+          _galleryAuth.postValue(GalleryAuth(isAuth = true))
         }
 
         override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
@@ -110,7 +118,7 @@ class SendDocumentsViewModel: ViewModel() {
         if(response.isSuccessful){
           val cities =  response.body()!!.Items
           cities.forEach { city -> citiesList.add(city.cityName) }
-          mainCities.postValue(citiesList.toList())
+          _mainCities.postValue(citiesList.toList())
         }else {
           NonSuccessResponse().message(response.code())
         }
@@ -169,4 +177,3 @@ class SendDocumentsViewModel: ViewModel() {
     }
 }
 
-data class ImageData(val bitmap: Bitmap?, val code64: String?)

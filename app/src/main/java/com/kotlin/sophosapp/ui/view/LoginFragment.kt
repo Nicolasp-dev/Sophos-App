@@ -40,7 +40,6 @@ class LoginFragment : Fragment() {
       _binding.ivMain.setImageResource(R.drawable.sophos_logo_dark)
     }
 
-
     // ------------------ [ LOGIN WITH CREDENTIALS ] ----------------------- //
     _binding.loginBtn.setOnClickListener{
       email = _binding.itLoginEmail.text.toString().trim()
@@ -51,7 +50,7 @@ class LoginFragment : Fragment() {
       viewModel.userData.observe(viewLifecycleOwner) { user ->
         run {
           if (user!!.access) {
-            Routing().goTo(activity as AppCompatActivity, MenuFragment())
+            Routing.goTo(activity as AppCompatActivity, MenuFragment())
             Toast.makeText(activity, "Welcome Back ${user.name}", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
@@ -68,7 +67,7 @@ class LoginFragment : Fragment() {
       viewModel.userAuth.observe(viewLifecycleOwner){ user ->
         run {
           if (user!!.isAuth) {
-            Routing().goTo(activity as AppCompatActivity, MenuFragment())
+            Routing.goTo(activity as AppCompatActivity, MenuFragment())
             Toast.makeText(activity, "Welcome Back", Toast.LENGTH_SHORT).show()
           } else {
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT).show()

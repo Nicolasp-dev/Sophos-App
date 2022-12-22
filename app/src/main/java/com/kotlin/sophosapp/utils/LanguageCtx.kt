@@ -9,7 +9,6 @@ import java.util.*
 
 class LanguageCtx(base: Context): ContextWrapper(base) {
   companion object{
-
     fun updateLanguage(ctx: Context, language: String): ContextWrapper {
       var context = ctx
       val config = context.resources.configuration

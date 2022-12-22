@@ -65,7 +65,7 @@ class OfficeFragment : Fragment(), OnMapReadyCallback {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return Routing().navigation(activity as AppCompatActivity, item)
+    return Routing.navigation(activity as AppCompatActivity, item)
   }
 
 

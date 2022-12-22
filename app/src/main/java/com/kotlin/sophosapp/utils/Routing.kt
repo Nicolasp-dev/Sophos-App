@@ -14,120 +14,52 @@ import com.kotlin.sophosapp.ui.view.MenuFragment
 import com.kotlin.sophosapp.ui.view.OfficeFragment
 import com.kotlin.sophosapp.ui.view.SendDocumentsFragment
 import com.kotlin.sophosapp.utils.UserApp.Companion.prefs
+import kotlin.math.log
 
 class Routing {
+  companion object {
+    fun navigation(context: AppCompatActivity, item: MenuItem, goBack: Boolean = false): Boolean {
 
-  fun navigation(context: AppCompatActivity, item: MenuItem, goBack: Boolean = false): Boolean{
+      return when (item.itemId) {
 
-    return when(item.itemId){
-      android.R.id.home -> {
-        if(goBack){
-          context.supportFragmentManager.commit{
-            context.onBackPressed()
-          }
-        }else{
-          goTo(context, MenuFragment())
-        }
-        true
+        android.R.id.home -> if (goBack) goBack(context) else goTo(context, MenuFragment())
+
+        R.id.op_send_docs -> goTo(context, SendDocumentsFragment())
+
+        R.id.op_see_docs -> goTo(context, DocumentsFragment())
+
+        R.id.op_office -> goTo(context, OfficeFragment())
+
+        R.id.op_theme -> ThemeTool.toggleTheme(context)
+
+        R.id.op_language -> LanguageTool.toggleLanguage(context)
+
+        R.id.op_logout -> logout(context)
+
+        else -> false
       }
-      R.id.op_send_docs -> {
-        goTo(context, SendDocumentsFragment())
-        true
-      }
-      R.id.op_see_docs -> {
-        goTo(context, DocumentsFragment())
-        true
-      }
-      R.id.op_office ->{
-        goTo(context, OfficeFragment())
-        true
-      }
-      R.id.op_theme  -> {
-        toggleTheme(context)
-        true
-      }
-      R.id.op_language  -> {
-        toggleLanguage(context)
-        true
-      }
-      R.id.op_logout  -> {
-        context.recreate()
-        true
-      }
-      else -> {false}
-    }
-  }
-
-  fun goTo(context: AppCompatActivity, fragment: Fragment) {
-    context.supportFragmentManager.commit {
-      replace(R.id.view_container, fragment)
-      setReorderingAllowed(true)
-      addToBackStack(null)
-    }
-  }
-
-  private fun toggleTheme(context: AppCompatActivity) {
-    val theme = prefs.getStoreTheme()
-    val language = prefs.getLanguage()
-
-    if (theme == Constants.LIGHT_THEME) {
-      Toast.makeText(context, "TOGGLE TO: DARK MODE", Toast.LENGTH_SHORT).show()
-
-      if(language == "en"){
-        prefs.storeThemeTitle("Light Mode")
-      }else{
-        prefs.storeThemeTitle(Constants.LIGHT_THEME)
-      }
-
-      prefs.storeTheme(Constants.DARK_THEME)
-
-      AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-
-
-    } else {
-      Toast.makeText(context, "TOGGLE TO: LIGHT MODE", Toast.LENGTH_SHORT).show()
-
-      if(language == "en"){
-        prefs.storeThemeTitle("Night Mode")
-      }else{
-        prefs.storeThemeTitle(Constants.DARK_THEME)
-      }
-
-      prefs.storeTheme(Constants.LIGHT_THEME)
-
-      AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-    }
-  }
-
-  private fun toggleLanguage(context: AppCompatActivity){
-    val language = prefs.getLanguage()
-    val theme = prefs.getStoreTheme()
-
-    if(language == "en" && theme == Constants.LIGHT_THEME){
-      prefs.storeLanguage("es")
-      prefs.storeLanguageTitle("Idioma Ingles")
-      prefs.storeThemeTitle("Modo nocturno")
     }
 
-    if(language == "en" && theme == Constants.DARK_THEME){
-      prefs.storeLanguage("es")
-      prefs.storeLanguageTitle("Idioma Ingles")
-      prefs.storeThemeTitle("Modo dia")
+    fun goTo(context: AppCompatActivity, fragment: Fragment): Boolean {
+      context.supportFragmentManager.commit {
+        replace(R.id.view_container, fragment)
+        setReorderingAllowed(true)
+        addToBackStack(null)
+      }
+      return true
     }
 
-    if(language == "es" && theme == Constants.LIGHT_THEME){
-      prefs.storeLanguage("en")
-      prefs.storeLanguageTitle("Spanish Language")
-      prefs.storeThemeTitle("Night mode")
+    private fun goBack(context: AppCompatActivity): Boolean {
+      context.supportFragmentManager.commit {
+        context.onBackPressed()
+      }
+      return true
     }
 
-    if(language == "es" && theme == Constants.DARK_THEME){
-      prefs.storeLanguage("en")
-      prefs.storeLanguageTitle("Spanish Language")
-      prefs.storeThemeTitle("Light Mode")
+    private fun logout(context: AppCompatActivity): Boolean {
+      context.recreate()
+      return true
     }
-
-    context.recreate()
   }
 }
 

@@ -26,16 +26,16 @@ class DetailDocumentFragment : Fragment() {
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View {
-    _binding = FragmentDetailDocumentBinding.inflate(inflater, container, false)
-    idRegister = requireArguments().getString(Constants.ID_REGISTER,"")
+    ): View {
+      _binding = FragmentDetailDocumentBinding.inflate(inflater, container, false)
+      idRegister = requireArguments().getString(Constants.ID_REGISTER,"")
 
-    viewModel.decodedImage.observe(viewLifecycleOwner){
-      image -> _binding.detailImage.setImageBitmap(image)
-    }
+      viewModel.decodedImage.observe(viewLifecycleOwner){
+        image -> _binding.detailImage.setImageBitmap(image)
+      }
 
-    viewModel.isLoading.observe(viewLifecycleOwner){
-      currentState -> _binding.progressBar.isVisible = currentState
+      viewModel.isLoading.observe(viewLifecycleOwner){
+        currentState -> _binding.progressBar.isVisible = currentState
     }
 
     viewModel.getDetails(idRegister)
@@ -75,6 +75,21 @@ class DetailDocumentFragment : Fragment() {
   // Handle click events of the menu.
   @Deprecated("Deprecated in Java")
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    return Routing().navigation(activity as AppCompatActivity, item, true)
+    return Routing.navigation(activity as AppCompatActivity, item, true)
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
