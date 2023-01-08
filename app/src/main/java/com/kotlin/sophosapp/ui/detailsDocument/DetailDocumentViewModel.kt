@@ -1,4 +1,4 @@
-package com.kotlin.sophosapp.ui.viewModel
+package com.kotlin.sophosapp.ui.documentDetail
 
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData

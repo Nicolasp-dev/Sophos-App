@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
 import com.kotlin.sophosapp.R
+import com.kotlin.sophosapp.ui.login.LoginFragment
 import com.kotlin.sophosapp.utils.Communicator
 import com.kotlin.sophosapp.utils.Constants
 import com.kotlin.sophosapp.utils.LanguageCtx

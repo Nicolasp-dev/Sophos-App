@@ -24,7 +24,6 @@ class LoginFragment : Fragment() {
 
   private lateinit var email: String
   private lateinit var password: String
-  // private val mContext = activity as AppCompatActivity
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,

@@ -1,4 +1,4 @@
-package com.kotlin.sophosapp.ui.view
+package com.kotlin.sophosapp.ui.documentDetail
 
 import android.os.Bundle
 import android.view.*
@@ -11,12 +11,12 @@ import com.kotlin.sophosapp.databinding.FragmentDetailDocumentBinding
 import com.kotlin.sophosapp.utils.Constants
 import com.kotlin.sophosapp.utils.MyToolbar
 import com.kotlin.sophosapp.utils.Routing
-import com.kotlin.sophosapp.ui.viewModel.DetailDocumentViewModel
 import com.kotlin.sophosapp.utils.UserApp
 
 class DetailDocumentFragment : Fragment() {
 
   private val viewModel: DetailDocumentViewModel by viewModels()
+
   private lateinit var _binding: FragmentDetailDocumentBinding
   private val binding get() = _binding
 
@@ -29,16 +29,6 @@ class DetailDocumentFragment : Fragment() {
     ): View {
       _binding = FragmentDetailDocumentBinding.inflate(inflater, container, false)
       idRegister = requireArguments().getString(Constants.ID_REGISTER,"")
-
-      viewModel.decodedImage.observe(viewLifecycleOwner){
-        image -> _binding.detailImage.setImageBitmap(image)
-      }
-
-      viewModel.isLoading.observe(viewLifecycleOwner){
-        currentState -> _binding.progressBar.isVisible = currentState
-    }
-
-    viewModel.getDetails(idRegister)
 
     return binding.root
   }
@@ -57,6 +47,16 @@ class DetailDocumentFragment : Fragment() {
 
     MyToolbar()
       .show(activity as AppCompatActivity, toolbar, title, true)
+
+    viewModel.decodedImage.observe(viewLifecycleOwner){
+        image -> _binding.detailImage.setImageBitmap(image)
+    }
+
+    viewModel.isLoading.observe(viewLifecycleOwner){
+        currentState -> _binding.progressBar.isVisible = currentState
+    }
+
+    viewModel.getDetails(idRegister)
   }
 
   // ------------------------- [OPTION MENU SETTINGS] ------------------------- //
